@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
 <head>
     <title>Track Information Access</title>
@@ -93,14 +93,15 @@
             color: white;
             font-weight: bold;
         }
+        
         .prediction-value {
-        background-color: #F4F4F4;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 24px;
-        font-weight: bold;
-        display: inline-block;
-        margin-top: 10px;
+            background-color: #F4F4F4;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
         }
         
         .prediction-value.hit {
@@ -109,6 +110,10 @@
         
         .prediction-value.flop {
             color: red;
+        }
+        
+        .prediction-button {
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -220,16 +225,15 @@
                                 </tr>
                             </tbody>
                         </table>
-                        </div>
-                        <div class="mt-3">
-                            <div class="form-group">
-                                <label for="track-id-prediction">Prediction:</label>
-                                <div class="input-group">
-                                    <button type="button" class="btn btn-primary" id="predict-hit-flop">Predict Hit/Flop</button>
-                                </div>
-                                <div class="input-group" id="prediction-container" style="display: none;">
-                                    <span class="prediction-value" id="prediction">{{ prediction }}</span>
-                                </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="form-group">
+                            <label for="track-id-prediction">Prediction:</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-primary" id="predict-hit-flop">Predict Hit/Flop</button>
+                            </div>
+                            <div class="input-group" id="prediction-container" style="display: none;">
+                                <span class="prediction-value" id="prediction">{{ prediction }}</span>
                             </div>
                         </div>
                     </div>
@@ -248,5 +252,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+    </body>
+    </html>
