@@ -21,7 +21,7 @@
             color: darkgreen;
         }
     
-        .form-group label {
+        .form-group label, .track-info label {
             font-weight: 500;
             font-size: 18px;
             margin-bottom: 5px;
@@ -73,6 +73,43 @@
             font-weight: 600;
             font-size: 18px;
         }
+        
+        .table-container {
+            margin-top: 30px;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: darkgreen;
+            color: white;
+            font-weight: bold;
+        }
+        .prediction-value {
+        background-color: #F4F4F4;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 10px;
+        }
+        
+        .prediction-value.hit {
+            color: green;
+        }
+        
+        .prediction-value.flop {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -84,73 +121,88 @@
                 <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
             </div>
             <button type="submit" class="btn">Fetch Track Data</button>
-            <div class="mt-3">
-                <label>Track Info:</label>
-            <div>
-                <label>Danceability:</label>
-                <span id="danceability">{{ danceability }}</span>
+            <div class="form-group">
+                <label for="track-id-output">Track Information:</label>
             </div>
-            <div>
-                <label>Energy:</label>
-                <span id="energy">{{ energy }}</span>
-            </div>
-            <div>
-                <label>Key:</label>
-                <span id="key">{{ key }}</span>
-            </div>
-            <div>
-                <label>Loudness:</label>
-                <span id="loudness">{{ loudness }}</span>
-            </div>
-            <div>
-                <label>Mode:</label>
-                <span id="mode">{{ mode }}</span>
-            </div>
-            <div>
-                <label>Speechiness:</label>
-                <span id="speechiness">{{ speechiness }}</span>
-            </div>
-            <div>
-                <label>Acousticness:</label>
-                <span id="acousticness">{{ acousticness }}</span>
-            </div>
-            <div>
-                <label>Instrumentalness:</label>
-                <span id="instrumentalness">{{ instrumentalness }}</span>
-            </div>
-            <div>
-                <label>Liveness:</label>
-                <span id="liveness">{{ liveness }}</span>
-            </div>
-            <div>
-                <label>Valence:</label>
-                <span id="valence">{{ valence }}</span>
-            </div>
-            <div>
-                <label>Tempo:</label>
-                <span id="tempo">{{ tempo }}</span>
-            </div>
-            <div>
-                <label>Duration (ms):</label>
-                <span id="duration_ms">{{ duration_ms }}</span>
-            </div>
-            <div>
-                <label>Time Signature:</label>
-                <span id="time_signature">{{ time_signature }}</span>
-            </div>
-            <div>
-                <label>Chorus Hit:</label>
-                <span id="chorus_hit">{{ chorus_hit }}</span>
-            </div>
-            <div>
-                <label>Sections:</label>
-                <span id="sections">{{ sections }}</span>
-            </div>
-            <div class="mt-3">
-                <label>Track Info:</label>
-            <div>
-                <label>Prediction Label:</label>
-                <span id="prediction">{{ prediction }}</span>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Danceability</td>
+                            <td id="danceability">{{ danceability }}</td>
+                        </tr>
+                        <tr>
+                            <td>Energy</td>
+                            <td id="energy">{{ energy }}</td>
+                        </tr>
+                        <tr>
+                            <td>Key</td>
+                            <td id="key">{{ key }}</td>
+                        </tr>
+                        <tr>
+                            <td>Loudness</td>
+                            <td id="loudness">{{ loudness }}</td>
+                        </tr>
+                        <tr>
+                            <td>Mode</td>
+                            <td id="mode">{{ mode }}</td>
+                        </tr>
+                        <tr>
+                            <td>Speechiness</td>
+                            <td id="speechiness">{{ speechiness }}</td>
+                        </tr>
+                        <tr>
+                            <td>Acousticness</td>
+                            <td id="acousticness">{{ acousticness }}</td>
+                        </tr>
+                        <tr>
+                            <td>Instrumentalness</td>
+                            <td id="instrumentalness">{{ instrumentalness }}</td>
+                        </tr>
+                        <tr>
+                            <td>Liveness</td>
+                            <td id="liveness">{{ liveness }}</td>
+                        </tr>
+                        <tr>
+                            <td>Valence</td>
+                            <td id="valence">{{ valence }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tempo</td>
+                            <td id="tempo">{{ tempo }}</td>
+                        </tr>
+                        <tr>
+                            <td>Duration (ms)</td>
+                            <td id="duration_ms">{{ duration_ms }}</td>
+                        </tr>
+                        <tr>
+                            <td>Time Signature</td>
+                            <td id="time_signature">{{ time_signature }}</td>
+                        </tr>
+                        <tr>
+                            <td>Chorus Hit</td>
+                            <td id="chorus_hit">{{ chorus_hit }}</td>
+                        </tr>
+                        <tr>
+                            <td>Sections</td>
+                            <td id="sections">{{ sections }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mt-3">
+                    <div class="form-group">
+                        <label for="track-id-prediction">Prediction:</label>
+                        <div class="prediction-value">
+                            <span id="prediction">{{ prediction }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
