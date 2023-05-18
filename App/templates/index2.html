@@ -115,96 +115,138 @@
 <body>
     <div class="container mt-5">
         <h1>Track Information Access</h1>
-        <form action="/getdata" method="post">
-            <div class="form-group">
-                <label for="track-id-input">Track ID:</label>
-                <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
-            </div>
-            <button type="submit" class="btn">Fetch Track Data</button>
-            <div class="form-group">
-                <label for="track-id-output">Track Information:</label>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Variable</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Danceability</td>
-                            <td id="danceability">{{ danceability }}</td>
-                        </tr>
-                        <tr>
-                            <td>Energy</td>
-                            <td id="energy">{{ energy }}</td>
-                        </tr>
-                        <tr>
-                            <td>Key</td>
-                            <td id="key">{{ key }}</td>
-                        </tr>
-                        <tr>
-                            <td>Loudness</td>
-                            <td id="loudness">{{ loudness }}</td>
-                        </tr>
-                        <tr>
-                            <td>Mode</td>
-                            <td id="mode">{{ mode }}</td>
-                        </tr>
-                        <tr>
-                            <td>Speechiness</td>
-                            <td id="speechiness">{{ speechiness }}</td>
-                        </tr>
-                        <tr>
-                            <td>Acousticness</td>
-                            <td id="acousticness">{{ acousticness }}</td>
-                        </tr>
-                        <tr>
-                            <td>Instrumentalness</td>
-                            <td id="instrumentalness">{{ instrumentalness }}</td>
-                        </tr>
-                        <tr>
-                            <td>Liveness</td>
-                            <td id="liveness">{{ liveness }}</td>
-                        </tr>
-                        <tr>
-                            <td>Valence</td>
-                            <td id="valence">{{ valence }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tempo</td>
-                            <td id="tempo">{{ tempo }}</td>
-                        </tr>
-                        <tr>
-                            <td>Duration (ms)</td>
-                            <td id="duration_ms">{{ duration_ms }}</td>
-                        </tr>
-                        <tr>
-                            <td>Time Signature</td>
-                            <td id="time_signature">{{ time_signature }}</td>
-                        </tr>
-                        <tr>
-                            <td>Chorus Hit</td>
-                            <td id="chorus_hit">{{ chorus_hit }}</td>
-                        </tr>
-                        <tr>
-                            <td>Sections</td>
-                            <td id="sections">{{ sections }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
+            </li>
+        </ul>
+        
+        <!-- Tab content -->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home">
                 <div class="mt-3">
                     <div class="form-group">
-                        <label for="track-id-prediction">Prediction:</label>
-                        <div class="prediction-value">
-                            <span id="prediction">{{ prediction }}</span>
+                        <label for="p1">page1</label>
+                    </div>
+                </div> 
+            </div>
+            <div class="tab-pane fade" id="hit-flop">
+                <p class="tab"> </p>
+                <form action="/getdata" method="post">
+                    <div class="form-group">
+                        <label for="track-id-input">Track ID:</label>
+                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                    </div>
+                    <button type="submit" class="btn">Fetch Track Data</button>
+                    <div class="form-group">
+                        <label for="track-id-output">Track Information:</label>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Variable</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Danceability</td>
+                                    <td id="danceability">{{ danceability }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Energy</td>
+                                    <td id="energy">{{ energy }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Key</td>
+                                    <td id="key">{{ key }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Loudness</td>
+                                    <td id="loudness">{{ loudness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Mode</td>
+                                    <td id="mode">{{ mode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Speechiness</td>
+                                    <td id="speechiness">{{ speechiness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Acousticness</td>
+                                    <td id="acousticness">{{ acousticness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Instrumentalness</td>
+                                    <td id="instrumentalness">{{ instrumentalness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Liveness</td>
+                                    <td id="liveness">{{ liveness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Valence</td>
+                                    <td id="valence">{{ valence }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tempo</td>
+                                    <td id="tempo">{{ tempo }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration (ms)</td>
+                                    <td id="duration_ms">{{ duration_ms }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Time Signature</td>
+                                    <td id="time_signature">{{ time_signature }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Chorus Hit</td>
+                                    <td id="chorus_hit">{{ chorus_hit }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sections</td>
+                                    <td id="sections">{{ sections }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         </div>
+                        <div class="mt-3">
+                            <div class="form-group">
+                                <label for="track-id-prediction">Prediction:</label>
+                                <div class="input-group">
+                                    <button type="button" class="btn btn-primary" id="predict-hit-flop">Predict Hit/Flop</button>
+                                </div>
+                                <div class="input-group" id="prediction-container" style="display: none;">
+                                    <span class="prediction-value" id="prediction">{{ prediction }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="social-media">
+                <div class="mt-3">
+                    <div class="form-group">
+                        <label for="p3">page3</label>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
