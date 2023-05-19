@@ -98,11 +98,77 @@
             display: inline-block;
             margin-top: 10px;
         }
+        .nav-tabs .nav-link {
+            background-color: lightgrey; /* Adjust the color as desired */
+            color: rgb(0, 0, 0);
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: darkgrey;
+            color: white;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #A9A9A9; /* Adjust the color as desired */
+            color: white;
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if there is a stored active tab in localStorage
+            const activeTab = localStorage.getItem("activeTab");
+
+            // Get the tab elements and tab content elements
+            const tabs = document.querySelectorAll(".nav-link");
+            const tabContents = document.querySelectorAll(".tab-pane");
+
+            // If there is a stored active tab, show it; otherwise, show the default "Home" tab
+            if (activeTab) {
+                for (let i = 0; i < tabs.length; i++) {
+                    if (tabs[i].getAttribute("href") === activeTab) {
+                        tabs[i].classList.add("active");
+                        tabContents[i].classList.add("show", "active");
+                    } else {
+                        tabs[i].classList.remove("active");
+                        tabContents[i].classList.remove("show", "active");
+                    }
+                }
+            } else {
+                tabs[0].classList.add("active");
+                tabContents[0].classList.add("show", "active");
+            }
+
+            // Add event listeners to the tabs to store the active tab in localStorage
+            tabs.forEach(function(tab) {
+                tab.addEventListener("click", function(event) {
+                    event.preventDefault();
+
+                    const activeTab = this.getAttribute("href");
+
+                    tabs.forEach(function(tab) {
+                        tab.classList.remove("active");
+                    });
+
+                    tabContents.forEach(function(tabContent) {
+                        tabContent.classList.remove("show", "active");
+                    });
+
+                    this.classList.add("active");
+                    document.querySelector(activeTab).classList.add("show", "active");
+
+                    // Store the active tab in localStorage
+                    localStorage.setItem("activeTab", activeTab);
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container mt-5">
-        <h1>RhythmRadar</h1>
+        <h1>
+            <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
+            RhythmRadar
+        </h1>
         
         <!-- Tabs navigation -->
         <ul class="nav nav-tabs" id="myTabs">
@@ -122,30 +188,43 @@
             <div class="tab-pane fade show active" id="home">
                 <div class="mt-3">
                     <div class="form-group">
-                        <label for="p1">page1</label>
+                        <label for="g1">Graph 1:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/graph1.png" alt="Graph 1">
+                        </div>
+                        <label for="g2">Graph 2:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/graph2.png" alt="Graph 2">
+                        </div>
+                        <label for="g3">Graph 3:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/graph3.png" alt="Graph 3">
+                        </div>
                     </div>
-                </div> 
+                </div>
             </div>
+        
             <div class="tab-pane fade" id="hit-flop">
                 <form action="/getdata" method="post">
                     <div class="form-group">
-                    <p></p>
+                        <p></p>
                         <label for="track-id-input">Track ID:</label>
                         <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
                     </div>
-                        <button type="submit" class="btn mt-2">Fetch Track Data</button>
-                    <div class="form-group">
-                        <label for="track-id-output">Track Information:</label>
-                    </div>
-                    <div class="table-container mt-2">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Variable</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <button type="submit" class="btn mt-2">Fetch Data + Predict Popularity</button>
+                </form>
+                <div class="form-group">
+                    <label for="track-id-output">Track Information:</label>
+                </div>
+                <div class="table-container mt-2">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                                 <tr>
                                     <td>Danceability</td>
                                     <td id="danceability">{{ danceability }}</td>
@@ -209,25 +288,24 @@
                             </tbody>
                         </table>
                     </div>
-                <form action="/getdata" method="post">
-                    <div class="form-group">
+                    <form action="/getdata" method="post">
                         <div class="form-group">
-                            <label for="track-id-prediction">Prediction:</label>
-                            <span class="prediction-value" id="prediction">{{ prediction }}</span>
+                            <div class="form-group">
+                                <label for="track-id-prediction">Prediction:</label>
+                                <span class="prediction-value" id="prediction">{{ prediction }}</span>
+                            </div>
                         </div>
+                    </form>
+                </div>
+            
+                <div class="tab-pane fade" id="social-media">
+                    <div class="mt-3">
+                        <div class="form-group">
+                            <label for="p3">page3</label>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="social-media">
-                <div class="mt-3">
-                    <div class="form-group">
-                        <label for="p3">page3</label>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

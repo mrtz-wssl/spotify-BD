@@ -3,6 +3,50 @@ import webbrowser
 import requests
 import pickle
 import pandas as pd
+import matplotlib.pyplot as plt
+import os
+import numpy as np
+
+def generate_and_save_graph(file_path, x, y, graph_type):
+    plt.figure(figsize=(8, 6))  # Adjust the figure size if needed
+
+    if graph_type == 'line':
+        plt.plot(x, y, color='gray', linewidth=2)
+    elif graph_type == 'bar':
+        plt.bar(x, y, color='gray')
+    elif graph_type == 'scatter':
+        plt.scatter(x, y, color='gray')
+
+    plt.title('Fancy Graph')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.savefig(file_path)
+    plt.close()
+
+# Specify the save directory
+save_directory = '/Users/timneuenschwander/Documents/GitHub/spotify-BD/App/static/images/'
+
+# Generate and save the first graph (line plot)
+file_name = 'graph1.png'
+file_path = os.path.join(save_directory, file_name)
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+generate_and_save_graph(file_path, x, y, 'line')
+
+# Generate and save the second graph (bar plot)
+file_name = 'graph2.png'
+file_path = os.path.join(save_directory, file_name)
+x = ['A', 'B', 'C', 'D', 'E']
+y = [4, 7, 2, 5, 9]
+generate_and_save_graph(file_path, x, y, 'bar')
+
+# Generate and save the third graph (scatter plot)
+file_name = 'graph3.png'
+file_path = os.path.join(save_directory, file_name)
+x = np.random.rand(100)
+y = np.random.rand(100)
+generate_and_save_graph(file_path, x, y, 'scatter')
+
 
 app = Flask(__name__)
 
@@ -78,8 +122,6 @@ def getdata():
 
     # Process the track data as needed
     return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, duration_ms=duration_ms, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label)
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
-
-
