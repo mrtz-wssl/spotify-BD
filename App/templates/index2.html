@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Track Information Access</title>
+    <title>RhythmRadar</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -21,7 +21,7 @@
             color: darkgreen;
         }
     
-        .form-group label {
+        .form-group label, .track-info label {
             font-weight: 500;
             font-size: 18px;
             margin-bottom: 5px;
@@ -48,18 +48,13 @@
             font-size: 18px;
             font-weight: 600;
             padding: 10px 20px;
-            margin-top: 50px;
+            margin-top: 10px;
             margin-bottom: 30px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
     
         button.btn:hover {
             background-color: #009933;
-        }
-    
-        .track-info {
-            margin-top: 50px;
-            color: darkgreen;
         }
     
         .track-info label {
@@ -73,86 +68,247 @@
             font-weight: 600;
             font-size: 18px;
         }
+        
+        .table-container {
+            margin-top: 10px;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: darkgreen;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .prediction-value {
+            background-color: #F4F4F4;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .nav-tabs .nav-link {
+            background-color: lightgrey; /* Adjust the color as desired */
+            color: rgb(0, 0, 0);
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: darkgrey;
+            color: white;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #A9A9A9; /* Adjust the color as desired */
+            color: white;
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if there is a stored active tab in localStorage
+            const activeTab = localStorage.getItem("activeTab");
+
+            // Get the tab elements and tab content elements
+            const tabs = document.querySelectorAll(".nav-link");
+            const tabContents = document.querySelectorAll(".tab-pane");
+
+            // If there is a stored active tab, show it; otherwise, show the default "Home" tab
+            if (activeTab) {
+                for (let i = 0; i < tabs.length; i++) {
+                    if (tabs[i].getAttribute("href") === activeTab) {
+                        tabs[i].classList.add("active");
+                        tabContents[i].classList.add("show", "active");
+                    } else {
+                        tabs[i].classList.remove("active");
+                        tabContents[i].classList.remove("show", "active");
+                    }
+                }
+            } else {
+                tabs[0].classList.add("active");
+                tabContents[0].classList.add("show", "active");
+            }
+
+            // Add event listeners to the tabs to store the active tab in localStorage
+            tabs.forEach(function(tab) {
+                tab.addEventListener("click", function(event) {
+                    event.preventDefault();
+
+                    const activeTab = this.getAttribute("href");
+
+                    tabs.forEach(function(tab) {
+                        tab.classList.remove("active");
+                    });
+
+                    tabContents.forEach(function(tabContent) {
+                        tabContent.classList.remove("show", "active");
+                    });
+
+                    this.classList.add("active");
+                    document.querySelector(activeTab).classList.add("show", "active");
+
+                    // Store the active tab in localStorage
+                    localStorage.setItem("activeTab", activeTab);
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Track Information Access</h1>
-        <form action="/getdata" method="post">
-            <div class="form-group">
-                <label for="track-id-input">Track ID:</label>
-                <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+        <h1>
+            <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
+            RhythmRadar
+        </h1>
+        
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
+            </li>
+        </ul>
+        
+        <!-- Tab content -->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home">
+                <div class="mt-3">
+                    <div class="form-group">
+                        <label for="g1">Graph 1:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/graph1.png" alt="Graph 1">
+                        </div>
+                        <label for="g2">Graph 2:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/graph2.png" alt="Graph 2">
+                        </div>
+                        <label for="g3">Graph 3:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/graph3.png" alt="Graph 3">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn">Fetch Track Data</button>
-            <div class="mt-3">
-                <label>Track Info:</label>
-            <div>
-                <label>Danceability:</label>
-                <span id="danceability">{{ danceability }}</span>
+        
+            <div class="tab-pane fade" id="hit-flop">
+                <form action="/getdata" method="post">
+                    <div class="form-group">
+                        <p></p>
+                        <label for="track-id-input">Track ID:</label>
+                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                    </div>
+                    <button type="submit" class="btn mt-2">Fetch Data + Predict Popularity</button>
+                </form>
+                <div class="form-group">
+                    <label for="track-id-output">Track Information:</label>
+                </div>
+                <div class="table-container mt-2">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td>Danceability</td>
+                                    <td id="danceability">{{ danceability }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Energy</td>
+                                    <td id="energy">{{ energy }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Key</td>
+                                    <td id="key">{{ key }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Loudness</td>
+                                    <td id="loudness">{{ loudness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Mode</td>
+                                    <td id="mode">{{ mode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Speechiness</td>
+                                    <td id="speechiness">{{ speechiness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Acousticness</td>
+                                    <td id="acousticness">{{ acousticness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Instrumentalness</td>
+                                    <td id="instrumentalness">{{ instrumentalness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Liveness</td>
+                                    <td id="liveness">{{ liveness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Valence</td>
+                                    <td id="valence">{{ valence }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tempo</td>
+                                    <td id="tempo">{{ tempo }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Duration (ms)</td>
+                                    <td id="duration_ms">{{ duration_ms }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Time Signature</td>
+                                    <td id="time_signature">{{ time_signature }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Chorus Hit</td>
+                                    <td id="chorus_hit">{{ chorus_hit }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sections</td>
+                                    <td id="sections">{{ sections }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <form action="/getdata" method="post">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="track-id-prediction">Prediction:</label>
+                                <span class="prediction-value" id="prediction">{{ prediction }}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            
+                <div class="tab-pane fade" id="social-media">
+                    <div class="mt-3">
+                        <div class="form-group">
+                            <label for="p3">page3</label>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <label>Energy:</label>
-                <span id="energy">{{ energy }}</span>
-            </div>
-            <div>
-                <label>Key:</label>
-                <span id="key">{{ key }}</span>
-            </div>
-            <div>
-                <label>Loudness:</label>
-                <span id="loudness">{{ loudness }}</span>
-            </div>
-            <div>
-                <label>Mode:</label>
-                <span id="mode">{{ mode }}</span>
-            </div>
-            <div>
-                <label>Speechiness:</label>
-                <span id="speechiness">{{ speechiness }}</span>
-            </div>
-            <div>
-                <label>Acousticness:</label>
-                <span id="acousticness">{{ acousticness }}</span>
-            </div>
-            <div>
-                <label>Instrumentalness:</label>
-                <span id="instrumentalness">{{ instrumentalness }}</span>
-            </div>
-            <div>
-                <label>Liveness:</label>
-                <span id="liveness">{{ liveness }}</span>
-            </div>
-            <div>
-                <label>Valence:</label>
-                <span id="valence">{{ valence }}</span>
-            </div>
-            <div>
-                <label>Tempo:</label>
-                <span id="tempo">{{ tempo }}</span>
-            </div>
-            <div>
-                <label>Duration (ms):</label>
-                <span id="duration_ms">{{ duration_ms }}</span>
-            </div>
-            <div>
-                <label>Time Signature:</label>
-                <span id="time_signature">{{ time_signature }}</span>
-            </div>
-            <div>
-                <label>Chorus Hit:</label>
-                <span id="chorus_hit">{{ chorus_hit }}</span>
-            </div>
-            <div>
-                <label>Sections:</label>
-                <span id="sections">{{ sections }}</span>
-            </div>
-            <div class="mt-3">
-                <label>Track Info:</label>
-            <div>
-                <label>Prediction Label:</label>
-                <span id="prediction">{{ prediction }}</span>
-            </div>
-        </form>
-    </div>
-</body>
-</html>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+    </html>
