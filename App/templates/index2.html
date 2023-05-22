@@ -235,9 +235,15 @@
                 <div class="mt-5 text-center">
                     <div class="white-box" style="background-color: rgb(78, 78, 78); padding: 20px; display: inline-block;">
                         <form action="/getdata" method="post" style="display: inline-block;">
-                            <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
-                                <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
-                                <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                            <div class="form-group d-flex justify-content-between" style="text-align: center; margin: 0 auto; max-width: 500px;">
+                                <div style="flex: 1; margin-right: 5px;">
+                                    <label for="artist-input" style="display: block; font-size: 16px;">Artist</label>
+                                    <input type="text" class="form-control" id="artist-input" name="artist-name-input" required>
+                                </div>
+                                <div style="flex: 1; margin-left: 5px;">
+                                    <label for="track-id-input" style="display: block; font-size: 16px;">Song Name</label>
+                                    <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                                </div>
                             </div>
                             <div class="button-wrapper">
                                 <button class="square-btn" onclick="submit123(1)">Predict Popularity</button>
@@ -245,7 +251,7 @@
                                 <button class="square-btn" onclick="submit123(3)">Track Improvement Coach</button>
                             </div>
                         </form>
-                    </div>
+                    </div>   
                 </div>                         
             </div>            
         
