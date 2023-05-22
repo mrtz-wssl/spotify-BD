@@ -125,7 +125,7 @@ def getdata():
     sections = 10
 
     X_test = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
-
+    
     #Create a df with the feature names and X Test as first row
     feature_names = ['danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'time_signature', 'chorus_hit', 'sections']
     X_test_df = pd.DataFrame(X_test, columns=feature_names)
@@ -166,7 +166,7 @@ def getdata():
     # Scale the DataFrame
     df_scaled = pd.DataFrame(scaler.transform(df), columns=df.columns)
 
-    # Scale the graph_data in relation to the entire dataset 
+    # Scale the graph_data in relation to the entire dataset   
     graph_data_scaled = scaler.transform(graph_data)
 
     # Generate the graph
