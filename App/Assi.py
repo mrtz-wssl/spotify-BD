@@ -8,45 +8,60 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
-def generate_and_save_graph(file_path, x, y, graph_type):
-    plt.figure(figsize=(8, 6))  # Adjust the figure size if needed
+# def generate_and_save_graph(file_path, x, y, graph_type):
+#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed
 
-    if graph_type == 'line':
-        plt.plot(x, y, color='gray', linewidth=2)
-    elif graph_type == 'bar':
-        plt.bar(x, y, color='gray')
-    elif graph_type == 'scatter':
-        plt.scatter(x, y, color='gray')
+#     # if graph_type == 'line':
+#     #     plt.plot(x, y, color='gray', linewidth=2)
+#     # elif graph_type == 'bar':
+#     #     plt.bar(x, y, color='gray')
+#     # elif graph_type == 'scatter':
+#     #     plt.scatter(x, y, color='gray')
+#     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
+#     # plt.title('Fancy Graph')
+#     # plt.xlabel('X')
+#     # plt.ylabel('Y')
+#     #plt.savefig(file_path)
+#     plt.close()
 
-    plt.title('Fancy Graph')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.savefig(file_path)
+def generate_and_save_graph():
+    # Generate the chart
+    # ...
+
+    # Save the chart as "mean-features-hits.png"
+    plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
+
+    #Save the chart /static/images/genre_heatmap.png
+    plt.savefig('genre_heatmap.png')
     plt.close()
+    # plt.show
+    return 'Chart generated and saved!'
 
 # Specify the save directory
 save_directory = 'App/static/images/'
 
 # Generate and save the first graph (line plot)
-file_name = 'graph1.png'
+file_name = 'genre_heatmap.png'
 file_path = os.path.join(save_directory, file_name)
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
-generate_and_save_graph(file_path, x, y, 'line')
+# generate_and_save_graph(file_path, x, y, 'line')
+generate_and_save_graph()
+# Generate and save the second graph (spider chart)
+# file_name = 'mean-features-hits.png'
+# file_path = os.path.join(save_directory, file_name)
+# # x = ['A', 'B', 'C', 'D', 'E']
+# # y = [4, 7, 2, 5, 9]
+# generate_and_save_graph(file_path, x, y, 'spider')
 
-# Generate and save the second graph (bar plot)
-file_name = 'graph2.png'
-file_path = os.path.join(save_directory, file_name)
-x = ['A', 'B', 'C', 'D', 'E']
-y = [4, 7, 2, 5, 9]
-generate_and_save_graph(file_path, x, y, 'bar')
+#Generate and save second graph (spider chart) 
 
 # Generate and save the third graph (scatter plot)
 file_name = 'graph3.png'
 file_path = os.path.join(save_directory, file_name)
 x = np.random.rand(100)
 y = np.random.rand(100)
-generate_and_save_graph(file_path, x, y, 'scatter')
+# generate_and_save_graph(file_path, x, y, 'scatter')
 
 
 app = Flask(__name__)
