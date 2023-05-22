@@ -12,6 +12,15 @@
             background-color: black;
             color: #FFFFFF
         }
+
+        #graph-container { 
+            max-width: 500px; /* Adjust the width as needed */ 
+            margin: 0 auto; /* Center the container */ 
+        } 
+        
+        #graph-container img { 
+            max-width: 100%; /* Make the image responsive */ 
+        }
     
         h1 {
             text-align: center;
@@ -230,9 +239,9 @@
                         <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
                       </div>
                       <div class="button-wrapper">
-                        <button class="square-btn" onclick="submitFormAndSwitchTab('hit-flop')" type="submit"  >Predict Popularity</button>
-                        <button class="square-btn" onclick="switchToTab('social-media')" >Predict Social Media Appearance</button>
-                        <button class="square-btn" onclick="switchToTab('statistics')" >Track Improvement Coach</button>
+                        <button class="square-btn" onclick="submit123(1)"  >Predict Popularity</button>
+                        <button class="square-btn" onclick="submit123(2)" >Predict Social Media Appearance</button>
+                        <button class="square-btn" onclick="submit123(3)" >Track Improvement Coach</button>
                       </div>
                     </form>
                 </div>                         
@@ -331,15 +340,15 @@
                         <div class="form-group">
                             <label for="g1">Graph 1:</label>
                             <div id="graph-container">
-                                <img src="/static/images/graph1.png" alt="Graph 1">
+                                <img src="/static/images/genre_heatmap.png" alt="Mean Audio features 1">
                             </div>
                             <label for="g2">Graph 2:</label>
                             <div id="graph-container">
-                                <img src="/static/images/graph2.png" alt="Graph 2">
+                                <img src="/static/images/features_history.png" alt="History of the Features of the Tracks">
                             </div>
                             <label for="g3">Graph 3:</label>
                             <div id="graph-container">
-                                <img src="/static/images/graph3.png" alt="Graph 3">
+                                <img src="/static/images/feature_genre.png" alt="Genre of the Tracks">
                             </div>
                             <div>
                                 <p style="font-size: 14px;">Our app offer</p>
