@@ -25,20 +25,25 @@ def generate_and_save_graph(file_path, x, y, graph_type):
     plt.close()
 
 def generate_feature_graph(file_path, x, y):
-    fig, ax = plt.subplots()
-
+    # Calculation of the mean song tempo
+    mean_tempo = np.mean(y)
+    
+    
+    
+    fig, ax = plt.subplots(figsize = (15,10))
     ax.plot(x, y, color='#1DB954')
     ax.plot(x, y, 'o', color='white', linewidth=5)
-
-    ax.grid(True, which='both')
     ax.axhline(y=0, color='white')
-    ax.grid(color='white', linestyle='-', linewidth=0.5)
-    ax.set_ylim(-1,1)
+    ax.grid(axis='x', color='white', linestyle='-', linewidth=0.5)
+
+    #ax.set_ylim(-1,1)
+    # Hintergrund schwarz einfärben
+    ax.set_facecolor('black')
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
 
     fig.savefig(file_path)
     plt.close(fig)
-    
+
 # Specify the save directory
 save_directory = 'App/static/images/'
 
@@ -138,9 +143,9 @@ def getdata():
 
 
     # Create a graph: 
-    graph_file_path = os.path.join('static/images', 'graph.png')
+    graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
     y_values = X_test  # assuming these are the y-values you want to plot
-    generate_feature_graph(graph_file_path, feature_names, y_values)
+    generate_feature_graph(graph_file_path, feature_names, y_values[0])
 
 # Process the track data as needed
     return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label)
