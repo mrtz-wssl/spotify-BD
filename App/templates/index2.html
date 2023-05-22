@@ -9,7 +9,8 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #F4F4F4;
+            background-color: black;
+            color: #FFFFFF
         }
     
         h1 {
@@ -18,7 +19,7 @@
             margin-bottom: 30px;
             font-weight: 600;
             font-size: 40px;
-            color: darkgreen;
+            color: #1DB954;
         }
 
         h2 {
@@ -27,14 +28,14 @@
             margin-bottom: 10px;
             font-weight: 500;
             font-size: 24px;
-            color: darkgreen;
+            color: #1DB954;
         }
     
         .form-group label, .track-info label {
             font-weight: 500;
             font-size: 18px;
             margin-bottom: 5px;
-            color: darkgreen;
+            color: #1DB954;
         }
     
         .form-control {
@@ -50,7 +51,7 @@
         }
     
         button.btn {
-            background-color: darkgreen;
+            background-color: #1DB954;
             border-radius: 3px;
             border: none;
             color: #FFFFFF;
@@ -74,7 +75,7 @@
             border-radius: 5%;
             font-size: 12px;
             margin: 40px 15px;
-            background-color: darkgreen;
+            background-color: #1DB954;
             border: none;
             color: #FFFFFF;
             font-weight: 600;
@@ -82,7 +83,7 @@
         }
     
         button.btn:hover {
-            background-color: #009933;
+            background-color: #1DB954;
         }
     
         .track-info label {
@@ -116,7 +117,7 @@
         }
 
         table th {
-            background-color: darkgreen;
+            background-color: #1DB954;
             color: white;
             font-weight: bold;
         }
@@ -149,6 +150,16 @@
             color: white;
             font-size: 14px; /* Adjusted font size */
         }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stack the children vertically */
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px; /* Adjust padding as required */
+            }
+
 
     </style>
     <script>
@@ -178,53 +189,52 @@
                 document.getElementById("statistics-tab").click();
             } 
         });
-    </script>
-    </head>
-    <body>
-        <div class="container mt-5">
-            <h1>
-                <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
-                RhythmRadar
-            </h1>
-            
-            <!-- Tabs navigation -->
-            <ul class="nav nav-tabs" id="myTabs">
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics">Statistics</a>
-                </li>
-            </ul>
-            
-            <!-- Tab content -->
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home">
-                    <div class="mt-5 text-center">
-                        <h2>Welcome to RhythmRadar!</h2>
-                    </div>
-                    <div style="text-align: center; margin: 0 auto; max-width: 800px;">
-                        <p style="font-size: 14px;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
-                    </div>
-                    <div class="mt-5 text-center">
-                        <form action="/getdata" method="post" style="display: inline-block;">
-                          <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
-                            <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
-                            <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
-                          </div>
-                          <div class="button-wrapper">
-                            <button class="square-btn" onclick="submit123(1);" >Predict Popularity</button>
-                            <button class="square-btn" >Predict Social Media Appearance</button>
-                            <button class="square-btn" >Track Improvement Coach</button>
-                          </div>
-                        </form>
-                    
+    </script>         
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>
+            <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
+            RhythmRadar
+        </h1>
+        
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics">Statistics</a>
+            </li>
+        </ul>
+        
+        <!-- Tab content -->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home">
+                <div class="mt-5 text-center">
+                    <h2>Welcome to RhythmRadar!</h2>
+                </div>
+                <div style="text-align: center; margin: 0 auto; max-width: 800px;">
+                    <p style="font-size: 14px;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
+                </div>
+                <div class="mt-5 text-center">
+                    <form action="/getdata" method="post" style="display: inline-block;">
+                      <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
+                        <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
+                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="square-btn" onclick="submitFormAndSwitchTab('hit-flop')" type="submit"  >Predict Popularity</button>
+                        <button class="square-btn" onclick="switchToTab('social-media')" >Predict Social Media Appearance</button>
+                        <button class="square-btn" onclick="switchToTab('statistics')" >Track Improvement Coach</button>
+                      </div>
+                    </form>
                 </div>                         
             </div>            
         
@@ -233,7 +243,7 @@
                     <label for="track-id-prediction">Prediction:</label>
                     <span class="prediction-value" id="prediction">{{ prediction }}</span>
                 </div>
-                <!-- <img src="{{ graph_file_path }}" alt="Plot"> --> 
+                <img src="{{'App/static/images/feature_graph.png'}}" alt="Plot">
                 <div class="form-group">
                     <label for="track-id-output">Track Information:</label>
                     <div class="table-container mt-2">
