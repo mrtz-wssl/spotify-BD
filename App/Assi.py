@@ -10,7 +10,7 @@ import os
 import numpy as np
 
 # def generate_and_save_graph(file_path, x, y, graph_type):
-#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed
+#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed 
 
 #     # if graph_type == 'line':
 #     #     plt.plot(x, y, color='gray', linewidth=2)
