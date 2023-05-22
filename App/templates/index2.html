@@ -152,61 +152,79 @@
 
     </style>
     <script>
-        function submitFormAndSwitchTab(tabId) {
-            // Submit the form
-            document.querySelector("form").submit();
-    
-            // Navigate to tab with given ID
-            document.querySelector(".nav-link.active").classList.remove("active"); // Remove the active class from the current active tab
-            document.querySelector(tabId).classList.add("active"); // Add the active class to the tab with the given ID
-            document.querySelector(tabId).click(); // Trigger a click event on the tab to display its content
+        function submit123(number) {
+            localStorage.setItem("tabNumber", number); // Save the number in local storage
+            document.getElementById("form").submit();
         }
-    </script>         
-</head>
-<body>
-    <div class="container mt-5">
-        <h1>
-            <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
-            RhythmRadar
-        </h1>
-        
-        <!-- Tabs navigation -->
-        <ul class="nav nav-tabs" id="myTabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics">Statistics</a>
-            </li>
-        </ul>
-        
-        <!-- Tab content -->
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home">
-                <div class="mt-5 text-center">
-                    <h2>Welcome to RhythmRadar!</h2>
-                </div>
-                <div style="text-align: center; margin: 0 auto; max-width: 800px;">
-                    <p style="font-size: 14px;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
-                </div>
-                <div class="mt-5 text-center">
-                    <form action="/getdata" method="post" style="display: inline-block;">
-                      <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
-                        <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
-                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
-                      </div>
-                      <div class="button-wrapper">
-                        <button class="square-btn" onclick="submitFormAndSwitchTab('hit-flop')" type="submit"  >Predict Popularity</button>
-                        <button class="square-btn" onclick="switchToTab('social-media')" >Predict Social Media Appearance</button>
-                        <button class="square-btn" onclick="switchToTab('statistics')" >Track Improvement Coach</button>
-                      </div>
-                    </form>
+
+        // Add event listener for page load
+        window.addEventListener('load', function() {
+            var tabNumber = localStorage.getItem("tabNumber"); // Get the saved number from local storage
+            if (tabNumber === null) {
+                // Default tab number is 0 if no value is stored in local storage
+                tabNumber = "0";
+            }
+            if (tabNumber === "0") {
+                // Select the first tab after the page reloads
+                document.getElementById("home-tab").click();
+            } else if (tabNumber === "1") {
+                // Select the second tab after the page reloads
+                document.getElementById("hit-flop-tab").click();
+            } else if (tabNumber === "2") {
+                // Select the third tab after the page reloads
+                document.getElementById("social-media-tab").click();
+            } else if (tabNumber === "3") {
+                // Select the third tab after the page reloads
+                document.getElementById("statistics-tab").click();
+            } 
+        });
+    </script>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1>
+                <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
+                RhythmRadar
+            </h1>
+            
+            <!-- Tabs navigation -->
+            <ul class="nav nav-tabs" id="myTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics">Statistics</a>
+                </li>
+            </ul>
+            
+            <!-- Tab content -->
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home">
+                    <div class="mt-5 text-center">
+                        <h2>Welcome to RhythmRadar!</h2>
+                    </div>
+                    <div style="text-align: center; margin: 0 auto; max-width: 800px;">
+                        <p style="font-size: 14px;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <form action="/getdata" method="post" style="display: inline-block;">
+                          <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
+                            <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
+                            <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                          </div>
+                          <div class="button-wrapper">
+                            <button class="square-btn" onclick="submit123(1);" >Predict Popularity</button>
+                            <button class="square-btn" >Predict Social Media Appearance</button>
+                            <button class="square-btn" >Track Improvement Coach</button>
+                          </div>
+                        </form>
+                    
                 </div>                         
             </div>            
         
@@ -312,6 +330,9 @@
                             <label for="g3">Graph 3:</label>
                             <div id="graph-container">
                                 <img src="/static/images/graph3.png" alt="Graph 3">
+                            </div>
+                            <div>
+                                <p style="font-size: 14px;">Our app offer</p>
                             </div>
                         </div>
                     </div>
