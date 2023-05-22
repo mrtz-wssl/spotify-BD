@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import webbrowser
 import requests
 import pickle
@@ -120,8 +121,30 @@ def getdata():
     else:
         prediction_label = 'Flop'
 
-    # Process the track data as needed
+
+  #  # Create a graph: 
+   # graph_file_path = os.path.join('static/images', 'graph.png')
+    #y_values = X_test[0]  # assuming these are the y-values you want to plot
+    #generate_feature_graph(graph_file_path, feature_names, y_values)
+
+# Process the track data as needed
     return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+#def generate_feature_graph(file_path, x, y):
+ #   fig, ax = plt.subplots()
+#
+ #   ax.plot(x, y, color='#1DB954')
+  #  ax.plot(x, y, 'o', color='white', linewidth=5)
+#
+ #   ax.grid(True, which='both')
+  #  ax.axhline(y=0, color='white')
+   # ax.grid(color='white', linestyle='-', linewidth=0.5)
+#
+ #   ax.set_ylim(-1,1)
+  #  ax.fill_between(x, y, color='#1DB954', alpha=0.3)
+#
+ #   fig.savefig(file_path)
+  #  plt.close(fig)
