@@ -152,54 +152,16 @@
 
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Check if there is a stored active tab in localStorage
-            const activeTab = localStorage.getItem("activeTab");
-
-            // Get the tab elements and tab content elements
-            const tabs = document.querySelectorAll(".nav-link");
-            const tabContents = document.querySelectorAll(".tab-pane");
-
-            // If there is a stored active tab, show it; otherwise, show the default "Home" tab
-            if (activeTab) {
-                for (let i = 0; i < tabs.length; i++) {
-                    if (tabs[i].getAttribute("href") === activeTab) {
-                        tabs[i].classList.add("active");
-                        tabContents[i].classList.add("show", "active");
-                    } else {
-                        tabs[i].classList.remove("active");
-                        tabContents[i].classList.remove("show", "active");
-                    }
-                }
-            } else {
-                tabs[0].classList.add("active");
-                tabContents[0].classList.add("show", "active");
-            }
-
-            // Add event listeners to the tabs to store the active tab in localStorage
-            tabs.forEach(function(tab) {
-                tab.addEventListener("click", function(event) {
-                    event.preventDefault();
-
-                    const activeTab = this.getAttribute("href");
-
-                    tabs.forEach(function(tab) {
-                        tab.classList.remove("active");
-                    });
-
-                    tabContents.forEach(function(tabContent) {
-                        tabContent.classList.remove("show", "active");
-                    });
-
-                    this.classList.add("active");
-                    document.querySelector(activeTab).classList.add("show", "active");
-
-                    // Store the active tab in localStorage
-                    localStorage.setItem("activeTab", activeTab);
-                });
-            });
-        });
-    </script>
+        function submitFormAndSwitchTab(tabId) {
+            // Submit the form
+            document.querySelector("form").submit();
+    
+            // Navigate to tab with given ID
+            document.querySelector(".nav-link.active").classList.remove("active"); // Remove the active class from the current active tab
+            document.querySelector(tabId).classList.add("active"); // Add the active class to the tab with the given ID
+            document.querySelector(tabId).click(); // Trigger a click event on the tab to display its content
+        }
+    </script>         
 </head>
 <body>
     <div class="container mt-5">
@@ -235,28 +197,24 @@
                 </div>
                 <div class="mt-5 text-center">
                     <form action="/getdata" method="post" style="display: inline-block;">
-                        <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
-                            <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
-                            <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
-                        </div>
+                      <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
+                        <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
+                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="square-btn" onclick="submitFormAndSwitchTab('hit-flop')" type="submit"  >Predict Popularity</button>
+                        <button class="square-btn" onclick="switchToTab('social-media')" >Predict Social Media Appearance</button>
+                        <button class="square-btn" onclick="switchToTab('statistics')" >Track Improvement Coach</button>
+                      </div>
                     </form>
-                </div>
-                <div class="button-wrapper">
-                    <button class="square-btn" onclick="location.href='#hit-flop'">Predict Popularity</button>
-                    <button class="square-btn" onclick="location.href='#social-media'">Predict Social Media Appearance</button>
-                    <button class="square-btn" onclick="location.href='#track-improvement'">Track Improvement Coach</button>
-                </div>                              
+                </div>                         
             </div>            
         
             <div class="tab-pane fade" id="hit-flop">
-                <form action="/getdata" method="post">
-                    <div class="form-group">
-                        <p></p>
-                        <label for="track-id-input">Track ID:</label>
-                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
-                    </div>
-                    <button type="submit" class="btn mt-2">Fetch Data + Predict Popularity</button>
-                </form>
+                <div class="form-group">
+                    <label for="track-id-prediction">Prediction:</label>
+                    <span class="prediction-value" id="prediction">{{ prediction }}</span>
+                </div>
                 <div class="form-group">
                     <label for="track-id-output">Track Information:</label>
                     <div class="table-container mt-2">
@@ -328,14 +286,7 @@
                         </table>
                     </div>
                 </div>
-                <form action="/getdata" method="post">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="track-id-prediction">Prediction:</label>
-                            <span class="prediction-value" id="prediction">{{ prediction }}</span>
-                        </div>
-                    </div>
-                </form>
+                
                 </div>
             
                 <div class="tab-pane fade" id="social-media">
