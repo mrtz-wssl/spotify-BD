@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, send_file
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from sklearn.preprocessing import MaxAbsScaler
 import webbrowser
 import requests
 import pickle
@@ -27,8 +28,6 @@ def generate_and_save_graph(file_path, x, y, graph_type):
 def generate_feature_graph(file_path, x, y):
     # Calculation of the mean song tempo
     mean_tempo = np.mean(y)
-    
-    
     
     fig, ax = plt.subplots(figsize = (15,10))
     ax.plot(x, y, color='#1DB954')
@@ -142,10 +141,37 @@ def getdata():
         prediction_label = 'Flop'
 
 
-    # Create a graph: 
+    #### Create a graph: ####
     graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
-    y_values = X_test  # assuming these are the y-values you want to plot
-    generate_feature_graph(graph_file_path, feature_names, y_values[0])
+
+    
+    # Load your data into a pandas DataFrame
+    df = pd.read_csv('TikTokSpotifyMerged.csv')
+
+    # Calculate mean values
+    mean_tempo = df['tempo'].mean()
+    mean_chorus_hit = df['chorus_hit'].mean()
+
+    deviation_tempo = abs(tempo - mean_tempo)
+    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)
+
+    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
+    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
+
+    # Modify your feature data
+    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify' ])
+    scaler = MaxAbsScaler()
+    scaler.fit(df)
+
+    # Scale the DataFrame
+    df_scaled = pd.DataFrame(scaler.transform(df), columns=df.columns)
+
+    # Scale the graph_data in relation to the entire dataset 
+    graph_data_scaled = scaler.transform(graph_data)
+
+    # Generate the graph
+    generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
+
 
 # Process the track data as needed
     return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label)
