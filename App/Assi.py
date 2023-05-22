@@ -14,7 +14,7 @@ def generate_and_save_graph(file_path, x, y, graph_type):
 
     if graph_type == 'line':
         plt.plot(x, y, color='gray', linewidth=2)
-    elif graph_type == 'bar':
+    elif graph_type == 'bar': 
         plt.bar(x, y, color='gray')
     elif graph_type == 'scatter':
         plt.scatter(x, y, color='gray')
