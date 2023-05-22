@@ -10,7 +10,7 @@ import os
 import numpy as np
 
 # def generate_and_save_graph(file_path, x, y, graph_type):
-#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed
+#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed 
 
 #     # if graph_type == 'line':
 #     #     plt.plot(x, y, color='gray', linewidth=2)
@@ -18,7 +18,7 @@ import numpy as np
 #     #     plt.bar(x, y, color='gray')
 #     # elif graph_type == 'scatter':
 #     #     plt.scatter(x, y, color='gray')
-#     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
+#     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight') 
 #     # plt.title('Fancy Graph')
 #     # plt.xlabel('X')
 #     # plt.ylabel('Y')
@@ -46,7 +46,7 @@ def generate_feature_graph(file_path, x, y):
     ax.plot(x, y, color='#1DB954')
     ax.plot(x, y, 'o', color='white', linewidth=5)
     ax.axhline(y=0, color='white')
-    ax.grid(axis='x', color='white', linestyle='-', linewidth=0.5)
+    ax.grid(axis='x', color='white', linestyle='-', linewidth=0.5) 
 
     #ax.set_ylim(-1,1)
     # Hintergrund schwarz einfärben
@@ -95,10 +95,10 @@ def index():
 @app.route('/getdata', methods=['POST'])
 def getdata():
     
-    # Get the track ID from the form
-    track_id = request.form['track-id-input']
-    #track_id = '11dFghVXANMlKmJXsNCbNl'
-    print(track_id)  
+    # Get the artist and track name from the form 
+    artist_name = request.form['artist-name-input']
+    track_name = request.form['track-id-input']
+    print(artist_name, track_name)  
 
     # Make a POST request to obtain the access token
     token_url = 'https://accounts.spotify.com/api/token'
@@ -111,16 +111,29 @@ def getdata():
     token_response_data = token_response.json()
     access_token = token_response_data['access_token']
 
+    # Search for the track on Spotify
+    search_url = 'https://api.spotify.com/v1/search'
+    search_params = {
+        'q': f'artist:{artist_name} track:{track_name}',
+        'type': 'track',
+        'limit': 1
+    }
+
+    headers = {'Authorization': f'Bearer {access_token}'}
+
+    search_response = requests.get(search_url, headers=headers, params=search_params)
+    print('Search Prompt', search_response)
+    search_data_json = search_response.json()   
+
+    track_id = search_data_json['tracks']['items'][0]['id']
+
     # Make a GET request to retrieve information about the track
     track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID
-    headers = {
-        'Authorization': f'Bearer {access_token}'
-    }
+    
     track_response = requests.get(track_url, headers=headers)
     track_data_json = track_response.json()
-
     # Print the track data in the terminal
-    print(track_response)
+    print('Spotify responded: ', track_response)
 
     # Extract the track data from the response
     danceability = track_data_json['danceability']
