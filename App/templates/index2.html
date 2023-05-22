@@ -20,6 +20,15 @@
             font-size: 40px;
             color: darkgreen;
         }
+
+        h2 {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 24px;
+            color: darkgreen;
+        }
     
         .form-group label, .track-info label {
             font-weight: 500;
@@ -51,6 +60,25 @@
             margin-top: 10px;
             margin-bottom: 20px; /* Adjusted margin */
             box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); /* Adjusted box shadow */
+        }
+
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .square-btn {
+            width: 170px;
+            height: 70px;
+            border-radius: 5%;
+            font-size: 12px;
+            margin: 40px 15px;
+            background-color: darkgreen;
+            border: none;
+            color: #FFFFFF;
+            font-weight: 600;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
         }
     
         button.btn:hover {
@@ -124,54 +152,16 @@
 
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Check if there is a stored active tab in localStorage
-            const activeTab = localStorage.getItem("activeTab");
-
-            // Get the tab elements and tab content elements
-            const tabs = document.querySelectorAll(".nav-link");
-            const tabContents = document.querySelectorAll(".tab-pane");
-
-            // If there is a stored active tab, show it; otherwise, show the default "Home" tab
-            if (activeTab) {
-                for (let i = 0; i < tabs.length; i++) {
-                    if (tabs[i].getAttribute("href") === activeTab) {
-                        tabs[i].classList.add("active");
-                        tabContents[i].classList.add("show", "active");
-                    } else {
-                        tabs[i].classList.remove("active");
-                        tabContents[i].classList.remove("show", "active");
-                    }
-                }
-            } else {
-                tabs[0].classList.add("active");
-                tabContents[0].classList.add("show", "active");
-            }
-
-            // Add event listeners to the tabs to store the active tab in localStorage
-            tabs.forEach(function(tab) {
-                tab.addEventListener("click", function(event) {
-                    event.preventDefault();
-
-                    const activeTab = this.getAttribute("href");
-
-                    tabs.forEach(function(tab) {
-                        tab.classList.remove("active");
-                    });
-
-                    tabContents.forEach(function(tabContent) {
-                        tabContent.classList.remove("show", "active");
-                    });
-
-                    this.classList.add("active");
-                    document.querySelector(activeTab).classList.add("show", "active");
-
-                    // Store the active tab in localStorage
-                    localStorage.setItem("activeTab", activeTab);
-                });
-            });
-        });
-    </script>
+        function submitFormAndSwitchTab(tabId) {
+            // Submit the form
+            document.querySelector("form").submit();
+    
+            // Navigate to tab with given ID
+            document.querySelector(".nav-link.active").classList.remove("active"); // Remove the active class from the current active tab
+            document.querySelector(tabId).classList.add("active"); // Add the active class to the tab with the given ID
+            document.querySelector(tabId).click(); // Trigger a click event on the tab to display its content
+        }
+    </script>         
 </head>
 <body>
     <div class="container mt-5">
@@ -199,22 +189,32 @@
         <!-- Tab content -->
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home">
-                <div class="mt-3">
-                    <div class="form-group">
-                        <label for="p1">page1</label>
-                    </div>
+                <div class="mt-5 text-center">
+                    <h2>Welcome to RhythmRadar!</h2>
                 </div>
-            </div>
+                <div style="text-align: center; margin: 0 auto; max-width: 800px;">
+                    <p style="font-size: 14px;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
+                </div>
+                <div class="mt-5 text-center">
+                    <form action="/getdata" method="post" style="display: inline-block;">
+                      <div class="form-group" style="display: inline-block; text-align: center; margin: 0 auto; max-width: 500px;">
+                        <label for="track-id-input" style="display: block; font-size: 16px;">Insert your track ID and try out our app's functionality!</label>
+                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="square-btn" onclick="submitFormAndSwitchTab('hit-flop')" type="submit"  >Predict Popularity</button>
+                        <button class="square-btn" onclick="switchToTab('social-media')" >Predict Social Media Appearance</button>
+                        <button class="square-btn" onclick="switchToTab('statistics')" >Track Improvement Coach</button>
+                      </div>
+                    </form>
+                </div>                         
+            </div>            
         
             <div class="tab-pane fade" id="hit-flop">
-                <form action="/getdata" method="post">
-                    <div class="form-group">
-                        <p></p>
-                        <label for="track-id-input">Track ID:</label>
-                        <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
-                    </div>
-                    <button type="submit" class="btn mt-2">Fetch Data + Predict Popularity</button>
-                </form>
+                <div class="form-group">
+                    <label for="track-id-prediction">Prediction:</label>
+                    <span class="prediction-value" id="prediction">{{ prediction }}</span>
+                </div>
                 <div class="form-group">
                     <label for="track-id-output">Track Information:</label>
                     <div class="table-container mt-2">
@@ -271,10 +271,6 @@
                                     <td id="tempo">{{ tempo }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Duration (ms)</td>
-                                    <td id="duration_ms">{{ duration_ms }}</td>
-                                </tr>
-                                <tr>
                                     <td>Time Signature</td>
                                     <td id="time_signature">{{ time_signature }}</td>
                                 </tr>
@@ -290,14 +286,7 @@
                         </table>
                     </div>
                 </div>
-                <form action="/getdata" method="post">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="track-id-prediction">Prediction:</label>
-                            <span class="prediction-value" id="prediction">{{ prediction }}</span>
-                        </div>
-                    </div>
-                </form>
+                
                 </div>
             
                 <div class="tab-pane fade" id="social-media">
