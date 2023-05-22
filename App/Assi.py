@@ -24,7 +24,7 @@ def generate_and_save_graph(file_path, x, y, graph_type):
     plt.close()
 
 # Specify the save directory
-save_directory = '/Users/timneuenschwander/Documents/GitHub/spotify-BD/App/static/images/'
+save_directory = 'App/static/images/'
 
 # Generate and save the first graph (line plot)
 file_name = 'graph1.png'
