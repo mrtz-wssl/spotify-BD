@@ -184,10 +184,30 @@ def getdata():
         prediction = xgb_model_loaded.predict(X_test_df)
         print('Song will be predicted')
         if prediction > 0.5:
-            prediction_label = 'Hit'
+            prediction_label = "It's a Hit!"
         else:
-            prediction_label = 'Flop'
+            prediction_label = "It's a Flop!"
 
+
+
+# # FOR SM-TARGET PREDICTION
+#     X_test_sm = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
+    
+#     #Create a df with the feature names and X Test as first row
+#     feature_names_sm = ['duration_ms','danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'era', 'main_parent_genre']
+#     X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
+    #     #load pickle and test if it works
+#     rf_model_loaded = pickle.load(open('randomforest_model.pkl', 'rb'))
+#     #print(xgb_model_loaded.predict(X_test_df))
+#     # Make predictions using the loaded model
+#     prediction2 = rf_model_loaded.predict(X_test_df_sm)
+#     if prediction2 > 0.5:
+#         prediction_label2 = "It's a Social Media Hit!"
+#     else:
+#         prediction_label2 = "It's a Social Media Flop!"
+
+
+#END SM-TARGET PREDICTION
     #### Create a graph: ####
     graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
 
@@ -202,11 +222,15 @@ def getdata():
     deviation_tempo = abs(tempo - mean_tempo)
     deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)
 
-    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
-    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
+    # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
+    # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
+    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, time_signature, sections]]
+    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'time_signature', 'sections']
+
 
     # Modify your feature data
-    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify' ])
+    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo' ])
+    print (df.columns)
     scaler = MaxAbsScaler()
     scaler.fit(df)
 
@@ -218,6 +242,9 @@ def getdata():
 
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
+
+
+
 
 
 # Process the track data as needed
