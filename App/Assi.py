@@ -10,10 +10,10 @@ import os
 import numpy as np
 
 # def generate_and_save_graph(file_path, x, y, graph_type):
-#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed 
+#     plt.figure(figsize=(8, 6))  # Adjust the figure      size if needed 
 
 #     # if graph_type == 'line':
-#     #     plt.plot(x, y, color='gray', linewidth=2)
+#     #     plt.plot(x, y, color='gray', linewidth=2)      
 #     # elif graph_type == 'bar':
 #     #     plt.bar(x, y, color='gray')
 #     # elif graph_type == 'scatter':
@@ -24,7 +24,7 @@ import numpy as np
 #     # plt.ylabel('Y')
 #     #plt.savefig(file_path)
 #     plt.close()
-
+     
 def generate_and_save_graph():
     # Generate the chart
     # ...
@@ -118,7 +118,7 @@ def getdata():
         'type': 'track',
         'limit': 1
     }  
-    
+
  
     headers = {'Authorization': f'Bearer {access_token}'}
 
@@ -130,7 +130,7 @@ def getdata():
     track_id = search_data_json['tracks']['items'][0]['id']
 
     # Make a GET request to retrieve information about the track
-    track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID
+    track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID  
     
     track_response = requests.get(track_url, headers=headers)
     track_data_json = track_response.json()
