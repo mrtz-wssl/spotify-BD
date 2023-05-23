@@ -17,14 +17,13 @@ import numpy as np
 #     # elif graph_type == 'bar':
 #     #     plt.bar(x, y, color='gray')
 #     # elif graph_type == 'scatter':
-#     #     plt.scatter(x, y, color='gray')
+#     #     plt.scatter(x, y, color='gray')©
 #     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight') 
 #     # plt.title('Fancy Graph')
 #     # plt.xlabel('X')
 #     # plt.ylabel('Y') 
 #     #plt.savefig(file_path)
-#     plt.close()
-     
+#     plt.close()     
 def generate_and_save_graph():
     # Generate the chart
     # ...
@@ -32,7 +31,7 @@ def generate_and_save_graph():
     # Save the chart as "mean-features-hits.png"
     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
 
-    #Save the chart /static/images/genre_heatmap.png
+    #Save the chart /static/images/genre_heatmap.pngd
     plt.savefig('genre_heatmap.png')
     plt.close()
     # plt.show
@@ -48,8 +47,7 @@ def generate_feature_graph(file_path, x, y):
     ax.axhline(y=0, color='grey')
     ax.grid(axis='x', color='grey', linestyle='-', linewidth=0.5) 
 
-    # Set the background color to black 
-    ax.set_facecolor('black')
+    # Set the background color to black
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
     fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=False)  # Save with black background  
     plt.close(fig)
@@ -57,18 +55,18 @@ def generate_feature_graph(file_path, x, y):
 # Specify the save directory
 save_directory = 'App/static/images/'
 
-# Generate and save the first graph (line plot) 
+# Generate and save the first graph (line plot)
 file_name = 'genre_heatmap.png'
 file_path = os.path.join(save_directory, file_name)
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
 # generate_and_save_graph(file_path, x, y, 'line')
 generate_and_save_graph()
-# Generate and save the second graph (spider chart)  
+# Generate and save the second graph (spider chart)
 # file_name = 'mean-features-hits.png'
 # file_path = os.path.join(save_directory, file_name)
 # # x = ['A', 'B', 'C', 'D', 'E']
-# # y = [4, 7, 2, 5, 9] 
+# # y = [4, 7, 2, 5, 9]
 # generate_and_save_graph(file_path, x, y, 'spider')
 
 #Generate and save second graph (spider chart) 
@@ -94,8 +92,10 @@ def index():
 def getdata():
     
     # Get the artist and track name from the form 
-    artist_name = request.form['artist-name-input']
-    track_name = request.form['track-id-input']
+    # artist_name = request.form['artist-name-input']
+    # track_name = request.form['track-id-input']
+    artist_name = "Drake"
+    track_name = "One Dance"
     print(artist_name, track_name)  
 
     # Make a POST request to obtain the access token
@@ -243,18 +243,18 @@ def getdata():
 
 
     #### Create a graph: ####
-    graph_file_path = os.path.join('App/static/images/', 'feature_graph.png')
+    graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
 
     
-    # Load your data into a pandas DataFrame 
-     
+    # Load your data into a pandas DataFrame
+    
 
     # Calculate mean values
     mean_tempo = df['tempo'].mean()
     mean_chorus_hit = df['chorus_hit'].mean()
 
     deviation_tempo = abs(tempo - mean_tempo)
-    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)  
+    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)
 
     # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
@@ -277,11 +277,11 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
-    data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
-    #create duration_ms
-    data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
-    # Drop unnecessary columns
-    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
+    # data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
+    # #create duration_ms
+    # data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
+    # # Drop unnecessary columns
+    # data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
 
 
     tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
@@ -293,7 +293,7 @@ def getdata():
         track_df = track_df.drop([ "track_id"], axis=1)
         return track_df
 
-    values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
+    # values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
 
     def checkfeature (insert_feature, song_df):
         song = song_df
@@ -319,12 +319,12 @@ def getdata():
         print ("success")
         return 1
 
-    def test (track_id):
-        song_df = id_to_df(track_id)
-        for feature in tuningfeatures:
-            if success (feature, song_df) ==1:
-                print ("you have reached a HIT")
-                return 
+    # def test (track_id):
+    #     song_df = id_to_df(track_id)
+    #     for feature in tuningfeatures:
+    #         if success (feature, song_df) ==1:
+    #             print ("you have reached a HIT")
+    #             return 
             
     recommendation = test(track_id)
     print(recommendation)
@@ -352,6 +352,6 @@ def getdata():
                         )
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
 
 
