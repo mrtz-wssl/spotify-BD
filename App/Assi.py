@@ -41,19 +41,19 @@ def generate_and_save_graph():
 def generate_feature_graph(file_path, x, y):
     # Calculation of the mean song tempo
     mean_tempo = np.mean(y)
-    
-    fig, ax = plt.subplots(figsize = (15,10))
+
+    fig, ax = plt.subplots(figsize=(15, 10))
     ax.plot(x, y, color='#1DB954')
     ax.plot(x, y, 'o', color='white', linewidth=5)
     ax.axhline(y=0, color='white')
-    ax.grid(axis='x', color='white', linestyle='-', linewidth=0.5) 
+    ax.grid(axis='x', color='white', linestyle='-', linewidth=0.5)
 
-    #ax.set_ylim(-1,1)
-    # Hintergrund schwarz einfärben
-    ax.set_facecolor('black')
+    # Set the background color to black
+    fig.set_facecolor('black')
+    
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
 
-    fig.savefig(file_path)
+    fig.savefig(file_path, facecolor=fig.get_facecolor())  # Save with black background
     plt.close(fig)
 
 # Specify the save directory
@@ -126,6 +126,16 @@ def getdata():
     search_data_json = search_response.json()   
 
     track_id = search_data_json['tracks']['items'][0]['id']
+
+    # artist_name = search_data_json['tracks']['items'][0]['artists'][0]['name'] - THIBAUD
+
+    #Match song name with the trackid
+    # track_name = search_data_json['tracks']['items'][0]['name'] - THIBAUD
+
+    #Make a GET request to retrive information about the track based on either the track name or the artist name 
+    # track_url = f'https://api.spotify.com/v1/search?q=track:{track_name}&type=track&limit=1'
+    # track_url = f'https://api.spotify.com/v1/search?q=artist:{artist_name}&type=artist&limit=1'
+    # track_url = f'https://api.spotify.com/v1/search?q=artist:{artist_name} track:{track_name}&type=track&limit=1'
 
     # Make a GET request to retrieve information about the track
     track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID
