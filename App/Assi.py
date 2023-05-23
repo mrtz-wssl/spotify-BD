@@ -50,7 +50,7 @@ def generate_feature_graph(file_path, x, y):
 
     # Set the background color to black
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path)  # Save with black background
+    fig.savefig(file_path)  # Save with black background  
     plt.close(fig)
 
 # Specify the save directory
