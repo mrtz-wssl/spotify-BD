@@ -84,7 +84,7 @@ y = np.random.rand(100)
 app = Flask(__name__)
 
 # Open the web page on Safari
-webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000/')
+webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
 
 @app.route('/')
 def index():
@@ -277,8 +277,75 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
+    data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
+    #create duration_ms
+    data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
+    # Drop unnecessary columns
+    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
+
+
+    tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
+                  "energy", "speechiness","instrumentalness","liveness",
+                  "valence","tempo"]
+    
+    def id_to_df (track_id):
+        track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
+        track_df = track_df.drop(['target', "track_id"], axis=1)
+        return track_df
+
+    values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
+
+    def checkfeature (insert_feature, song_df):
+        song = song_df
+        feature = insert_feature
+        for value in values:
+            song_copy = song.copy()  # Create a copy of the DataFrame
+            feature = insert_feature
+            song_copy[feature] = song_copy[feature] * value 
+            pred = xgb_model_loaded.predict(song_copy)
+            #print(value)
+
+        if pred[0] > 0:
+            print ("HIT reached")
+            print ("You have to change " + str(feature) +" by " + str(value))
+            return value
+    def success (insert_feature, song_df):
+        if checkfeature(insert_feature, song_df ) is None:
+            print ("no success with " + str(insert_feature))
+            return 0
+        print ("success")
+    return 1
+
+    def test (track_id):
+        song_df = id_to_df(track_id)
+        for feature in tuningfeatures:
+            if success (feature, song_df) ==1:
+                print ("you have reached a HIT")
+                return 
+            
+    recommendation = test(track_id)
+    recommendation
+
 # Process the track data as needed
-    return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label, prediction2=prediction_label2)
+    return render_template('index2.html', 
+                           track_data=track_data_json,
+                           danceability=danceability, 
+                           energy=energy, 
+                           key=key, 
+                           loudness=loudness, 
+                           mode=mode, 
+                           speechiness=speechiness,
+                           acousticness=acousticness, 
+                           instrumentalness=instrumentalness, 
+                           liveness=liveness, 
+                           valence=valence, 
+                           tempo=tempo, 
+                           time_signature=time_signature, 
+                           chorus_hit=chorus_hit, 
+                           sections=sections, 
+                           prediction=prediction_label, 
+                           prediction2=prediction_label2,
+                        recommendation=recommendation)
 
 if __name__ == '__main__':
     app.run(debug=True)
