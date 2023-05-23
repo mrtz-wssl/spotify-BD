@@ -43,15 +43,15 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.plot(x, y, color='#1DB954', linewidth=10)
-    ax.plot(x, y, 'o', color='white', linewidth = 0.8, markersize = 10) 
+    ax.plot(x, y, color='#1DB954', linewidth=0.3)
+    ax.plot(x, y, 'o', color='blue', linewidth = 0.3, markersize = 10) 
     ax.axhline(y=0, color='grey')
     ax.grid(axis='x', color='grey', linestyle='-', linewidth=0.5) 
 
     # Set the background color to black 
     ax.set_facecolor('black')
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with black background  
+    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=False)  # Save with black background  
     plt.close(fig)
 
 # Specify the save directory
@@ -327,6 +327,7 @@ def getdata():
                 return 
             
     recommendation = test(track_id)
+    print(recommendation)
 
 # Process the track data as needed
     return render_template('index2.html', 
