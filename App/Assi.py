@@ -48,8 +48,9 @@ def generate_feature_graph(file_path, x, y):
     ax.grid(axis='x', color='grey', linestyle='-', linewidth=0.5) 
 
     # Set the background color to black
+    fig.patch.set_facecolor('black')
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=False)  # Save with black background  
+    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with black background  
     plt.close(fig)
 
 # Specify the save directory
@@ -277,12 +278,11 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
-    # data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
-    # #create duration_ms
-    # data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
-    # # Drop unnecessary columns
-    # data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
-
+    data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
+    #create duration_ms
+    data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
+    # Drop unnecessary columns
+    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
 
     tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
                   "energy", "speechiness","instrumentalness","liveness",
@@ -293,7 +293,7 @@ def getdata():
         track_df = track_df.drop([ "track_id"], axis=1)
         return track_df
 
-    # values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
+    values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
 
     def checkfeature (insert_feature, song_df):
         song = song_df
@@ -319,12 +319,12 @@ def getdata():
         print ("success")
         return 1
 
-    # def test (track_id):
-    #     song_df = id_to_df(track_id)
-    #     for feature in tuningfeatures:
-    #         if success (feature, song_df) ==1:
-    #             print ("you have reached a HIT")
-    #             return 
+    def test (track_id):
+        song_df = id_to_df(track_id)
+        for feature in tuningfeatures:
+            if success (feature, song_df) ==1:
+                print ("you have reached a HIT")
+                return 
             
     recommendation = test(track_id)
     print(recommendation)
