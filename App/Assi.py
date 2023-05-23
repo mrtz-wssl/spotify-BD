@@ -43,31 +43,32 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.plot(x, y, color='#1DB954')
-    ax.plot(x, y, 'o', color='black', linewidth=5)
-    ax.axhline(y=0, color='black')
-    ax.grid(axis='x', color='black', linestyle='-', linewidth=0.5)
+    ax.plot(x, y, color='#1DB954', linewidth=10)
+    ax.plot(x, y, 'o', color='white', linewidth = 0.8, markersize = 10) 
+    ax.axhline(y=0, color='grey')
+    ax.grid(axis='x', color='grey', linestyle='-', linewidth=0.5) 
 
-    # Set the background color to black
+    # Set the background color to black 
+    ax.set_facecolor('black')
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path)  # Save with black background  
+    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with black background  
     plt.close(fig)
 
 # Specify the save directory
 save_directory = 'App/static/images/'
 
-# Generate and save the first graph (line plot)
+# Generate and save the first graph (line plot) 
 file_name = 'genre_heatmap.png'
 file_path = os.path.join(save_directory, file_name)
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
 # generate_and_save_graph(file_path, x, y, 'line')
 generate_and_save_graph()
-# Generate and save the second graph (spider chart)
+# Generate and save the second graph (spider chart)  
 # file_name = 'mean-features-hits.png'
 # file_path = os.path.join(save_directory, file_name)
 # # x = ['A', 'B', 'C', 'D', 'E']
-# # y = [4, 7, 2, 5, 9]
+# # y = [4, 7, 2, 5, 9] 
 # generate_and_save_graph(file_path, x, y, 'spider')
 
 #Generate and save second graph (spider chart) 
@@ -242,18 +243,18 @@ def getdata():
 
 
     #### Create a graph: ####
-    graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
+    graph_file_path = os.path.join('App/static/images/', 'feature_graph.png')
 
     
-    # Load your data into a pandas DataFrame
-    
+    # Load your data into a pandas DataFrame 
+     
 
     # Calculate mean values
     mean_tempo = df['tempo'].mean()
     mean_chorus_hit = df['chorus_hit'].mean()
 
     deviation_tempo = abs(tempo - mean_tempo)
-    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)
+    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)  
 
     # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
@@ -347,6 +348,6 @@ def getdata():
                         recommendation=recommendation)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
 
 
