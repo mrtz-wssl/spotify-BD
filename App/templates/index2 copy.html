@@ -1,92 +1,443 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Song Search</title>
+    <title>RhythmRadar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            font-family: 'Montserrat', sans-serif;
+            background-color: black;
+            color: #FFFFFF
         }
+
+        #graph-container { 
+            max-width: 500px; /* Adjust the width as needed */ 
+            margin: 0 auto; /* Center the container */ 
+        } 
         
+        #graph-container img { 
+            max-width: 100%; /* Make the image responsive */ 
+        }
+    
         h1 {
             text-align: center;
-            color: #333;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 40px;
+            color: #1DB954;
         }
-        
-        #result-box {
-            width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-        }
-        
+
         h2 {
-            color: #333;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 24px;
+            color: #1DB954;
+        }
+    
+        .form-group label, .track-info label {
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #1DB954;
+        }
+    
+        .form-control {
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .form-control:focus {
+            border: none;
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+    
+        button.btn {
+            background-color: #1DB954;
+            border-radius: 3px;
+            border: none;
+            color: #FFFFFF;
+            font-size: 14px; /* Adjusted font size */
+            font-weight: 600;
+            padding: 8px 16px; /* Adjusted padding */
+            margin-top: 10px;
+            margin-bottom: 20px; /* Adjusted margin */
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); /* Adjusted box shadow */
+        }
+
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .square-btn {
+            width: 170px;
+            height: 70px;
+            border-radius: 5%;
+            font-size: 12px;
+            margin: 40px 15px;
+            background-color: #1DB954;
+            border: none;
+            color: #FFFFFF;
+            font-weight: 600;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+        }
+    
+        button.btn:hover {
+            background-color: #1DB954;
+        }
+    
+        .track-info label {
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 1px;
+            display: block;
+        }
+    
+        .track-info span {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .table-container {
+            margin-top: 5px; /* Adjusted margin-top */
+            margin-bottom: 5px; /* Adjusted margin-bottom */
+        }
+        
+        table {
+            width: 100%;
             margin-bottom: 10px;
         }
-        
-        #track-data {
-            width: 100%;
-            height: 200px;
+
+        table th,
+        table td {
+            padding: 5px; /* Adjusted padding */
             border: 1px solid #ccc;
-            padding: 5px;
+            text-align: left;
+            font-size: 12px; /* Adjusted font size */
+        }
+
+        table th {
+            background-color: #1DB954;
+            color: white;
+            font-weight: bold;
+        }
+
+        .prediction-value {
+            background-color: #cbcecb;
+            border-radius: 5px;
+            padding: 8px; /* Adjusted padding */
+            font-size: 20px; /* Adjusted font size */
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .nav-tabs .nav-link {
+            background-color: rgb(78, 78, 78);
+            color: white;
+            margin-right: 5px;
             font-size: 14px;
-            overflow-y: scroll;
+            padding: 5px 8px;
         }
-        
-        #fetch-data-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+
+        .nav-tabs .nav-link.active {
+            background-color: #1DB954;
+            color: white;
         }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #389F59; /* A similar but different green */
+            color: white;
+            font-size: 14px;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stack the children vertically */
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px; /* Adjust padding as required */
+            }
+
+
     </style>
+    <script>
+        function submit123(number) {
+            localStorage.setItem("tabNumber", number); // Save the number in local storage
+            document.getElementById("form").submit();
+        }
+
+        // Add event listener for page load
+        window.addEventListener('load', function() {
+            var tabNumber = localStorage.getItem("tabNumber"); // Get the saved number from local storage
+            if (tabNumber === null) {
+                // Default tab number is 0 if no value is stored in local storage
+                tabNumber = "0";
+            }
+            if (tabNumber === "0") {
+                // Select the first tab after the page reloads
+                document.getElementById("home-tab").click();
+            } else if (tabNumber === "1") {
+                // Select the second tab after the page reloads
+                document.getElementById("hit-flop-tab").click();
+            } else if (tabNumber === "2") {
+                // Select the third tab after the page reloads
+                document.getElementById("social-media-tab").click();
+            } else if (tabNumber === "3") {
+                // Select the third tab after the page reloads
+                document.getElementById("statistics-tab").click();
+            } 
+        });
+    </script>         
 </head>
 <body>
-    <h1>Song Search</h1>
-    <div id="result-box">
-        <h2>Artist Data:</h2>
-        <textarea id="track-data" readonly></textarea>
-    </div>
-    <form id="track-form">
-        <label for="track-id-input">Track ID:</label>
-        <input type="text" id="track-id-input" placeholder="Enter Track ID">
-        </div>
-        <button type="button" id="fetch-data-btn">Fetch Artist Data</button>
-    </form>
+    <div class="container mt-5">
+        <h1>
+            <img src="/static/images/music.png" alt="Music" width="50" height="50" style="vertical-align: middle;">
+            RhythmRadar
+        </h1>
+        
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="hit-flop-tab" data-toggle="tab" href="#hit-flop">Hit/Flop Predictor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="social-media-tab" data-toggle="tab" href="#social-media">Social Media Appearance Predictor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="statistics-tab" data-toggle="tab" href="#statistics">Statistics</a>
+            </li>
+        </ul>
+        
+        <!-- Tab content -->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home">
+                <div class="mt-5 text-center">
+                    <h2>Welcome to RhythmRadar!</h2>
+                </div>
+                <div style="text-align: center; margin: 0 auto; max-width: 800px;">
+                    <p style="font-size: 14px;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
+                </div>
+                <div class="mt-5 text-center">
+                    <div class="white-box" style="background-color: rgb(78, 78, 78); padding: 20px; display: inline-block;">
+                        <form action="/getdata" method="post" style="display: inline-block;">
+                            <div class="form-group d-flex justify-content-between" style="text-align: center; margin: 0 auto; max-width: 500px;">
+                                <div style="flex: 1; margin-right: 5px;">
+                                    <label for="artist-input" style="display: block; font-size: 16px;">Artist</label>
+                                    <input type="text" class="form-control" id="artist-input" name="artist-name-input" required>
+                                </div>
+                                <div style="flex: 1; margin-left: 5px;">
+                                    <label for="track-id-input" style="display: block; font-size: 16px;">Track Name</label>
+                                    <input type="text" class="form-control" id="track-id-input" name="track-id-input" required>
+                                </div>
+                            </div>
+                            <div class="button-wrapper">
+                                <button class="square-btn" onclick="submit123(1)">Predict Popularity</button>
+                                <button class="square-btn" onclick="submit123(2)">Predict Social Media Appearance</button>
+                                <button class="square-btn" onclick="submit123(3)">Track Improvement Coach</button>
+                            </div>
+                        </form>
+                    </div>   
+                </div>                         
+            </div>            
+        
+            <div class="tab-pane fade" id="hit-flop">
+                <div class="form-group">
+                    <label for="track-id-prediction">Prediction:</label>
+                    <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction }}</span>
+                </div>
+                    <img src="/static/images/feature_graph.png" alt="Plot" style="width: 100%; height: 50%;"><!-- to adjust the size of the image change width or height!-->
+                <div class="form-group">
+                    <label for="track-id-output">Track Information:</label>
+                    <div class="table-container mt-2">
+                        <table>
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td>Danceability</td>
+                                    <td id="danceability">{{ danceability }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Energy</td>
+                                    <td id="energy">{{ energy }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Key</td>
+                                    <td id="key">{{ key }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Loudness</td>
+                                    <td id="loudness">{{ loudness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Mode</td>
+                                    <td id="mode">{{ mode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Speechiness</td>
+                                    <td id="speechiness">{{ speechiness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Acousticness</td>
+                                    <td id="acousticness">{{ acousticness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Instrumentalness</td>
+                                    <td id="instrumentalness">{{ instrumentalness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Liveness</td>
+                                    <td id="liveness">{{ liveness }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Valence</td>
+                                    <td id="valence">{{ valence }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tempo</td>
+                                    <td id="tempo">{{ tempo }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Time Signature</td>
+                                    <td id="time_signature">{{ time_signature }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Chorus Hit</td>
+                                    <td id="chorus_hit">{{ chorus_hit }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sections</td>
+                                    <td id="sections">{{ sections }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>    
+            </div>
+            
+            <div class="tab-pane fade" id="social-media">
+                <div class="mt-3">
+                    <div class="form-group">
+                        <label for="track-id-prediction">Social Media Success Prediction:</label>
+                        <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction2 }}</span>
+                    </div>
+                        <label for="track-id-output">Social Media Track Success:</label>
+                <div class="table-container mt-2">
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>Danceability</td>
+                                <td id="danceability">{{ danceability }}</td>
+                            </tr>
+                            <tr>
+                                <td>Energy</td>
+                                <td id="energy">{{ energy }}</td>
+                            </tr>
+                            <tr>
+                                <td>Key</td>
+                                <td id="key">{{ key }}</td>
+                            </tr>
+                            <tr>
+                                <td>Loudness</td>
+                                <td id="loudness">{{ loudness }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mode</td>
+                                <td id="mode">{{ mode }}</td>
+                            </tr>
+                            <tr>
+                                <td>Speechiness</td>
+                                <td id="speechiness">{{ speechiness }}</td>
+                            </tr>
+                            <tr>
+                                <td>Acousticness</td>
+                                <td id="acousticness">{{ acousticness }}</td>
+                            </tr>
+                            <tr>
+                                <td>Instrumentalness</td>
+                                <td id="instrumentalness">{{ instrumentalness }}</td>
+                            </tr>
+                            <tr>
+                                <td>Liveness</td>
+                                <td id="liveness">{{ liveness }}</td>
+                            </tr>
+                            <tr>
+                                <td>Valence</td>
+                                <td id="valence">{{ valence }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tempo</td>
+                                <td id="tempo">{{ tempo }}</td>
+                            </tr>
+                            <tr>
+                                <td>Time Signature</td>
+                                <td id="time_signature">{{ time_signature }}</td>
+                            </tr>
+                            <tr>
+                                <td>Chorus Hit</td>
+                                <td id="chorus_hit">{{ chorus_hit }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sections</td>
+                                <td id="sections">{{ sections }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
 
-    <<script>
-    // Fetch track data when the button is clicked
-    document.getElementById('fetch-data-btn').addEventListener('click', function() {
-        var trackId = document.getElementById('track-id-input').value;
-        fetch('/getdata', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: trackId // Send the user input as the request body
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text(); // Return the response as text
-            } else {
-                throw new Error('Error: ' + response.status);
-            }
-        })
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.log('Error:', error);
-        });
-    });
-</script>
-</body>
-</html>
+            <div class="tab-pane fade" id="statistics">
+                <div class="mt-3">
+                    <div class="form-group">
+                        <label for="g1">Graph 1:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/genre_heatmap.png" alt="Mean Audio features 1">
+                        </div>
+                        <label for="g2">Graph 2:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/features_history.png" alt="History of the Features of the Tracks">
+                        </div>
+                        <label for="g3">Graph 3:</label>
+                        <div id="graph-container">
+                            <img src="/static/images/feature_genre.png" alt="Genre of the Tracks">
+                        </div>
+                        <div>
+                            <p style="font-size: 14px;">Our app offer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+    </html>
