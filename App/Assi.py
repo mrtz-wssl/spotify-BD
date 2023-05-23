@@ -43,31 +43,32 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.plot(x, y, color='#1DB954')
-    ax.plot(x, y, 'o', color='black', linewidth=5)
-    ax.axhline(y=0, color='black')
-    ax.grid(axis='x', color='black', linestyle='-', linewidth=0.5)
+    ax.plot(x, y, color='#1DB954', linewidth=10)
+    ax.plot(x, y, 'o', color='white', linewidth = 0.8, markersize = 10) 
+    ax.axhline(y=0, color='grey')
+    ax.grid(axis='x', color='grey', linestyle='-', linewidth=0.5) 
 
-    # Set the background color to black
+    # Set the background color to black 
+    ax.set_facecolor('black')
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path)  # Save with black background  
+    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with black background  
     plt.close(fig)
 
 # Specify the save directory
 save_directory = 'App/static/images/'
 
-# Generate and save the first graph (line plot)
+# Generate and save the first graph (line plot) 
 file_name = 'genre_heatmap.png'
 file_path = os.path.join(save_directory, file_name)
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
 # generate_and_save_graph(file_path, x, y, 'line')
 generate_and_save_graph()
-# Generate and save the second graph (spider chart)
+# Generate and save the second graph (spider chart)  
 # file_name = 'mean-features-hits.png'
 # file_path = os.path.join(save_directory, file_name)
 # # x = ['A', 'B', 'C', 'D', 'E']
-# # y = [4, 7, 2, 5, 9]
+# # y = [4, 7, 2, 5, 9] 
 # generate_and_save_graph(file_path, x, y, 'spider')
 
 #Generate and save second graph (spider chart) 
@@ -83,7 +84,7 @@ y = np.random.rand(100)
 app = Flask(__name__)
 
 # Open the web page on Safari
-webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000/')
+webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
 
 @app.route('/')
 def index():
@@ -242,18 +243,18 @@ def getdata():
 
 
     #### Create a graph: ####
-    graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
+    graph_file_path = os.path.join('App/static/images/', 'feature_graph.png')
 
     
-    # Load your data into a pandas DataFrame
-    
+    # Load your data into a pandas DataFrame 
+     
 
     # Calculate mean values
     mean_tempo = df['tempo'].mean()
     mean_chorus_hit = df['chorus_hit'].mean()
 
     deviation_tempo = abs(tempo - mean_tempo)
-    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)
+    deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)  
 
     # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
@@ -276,6 +277,55 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
+    data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
+    #create duration_ms
+    data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
+    # Drop unnecessary columns
+    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
+
+
+    tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
+                  "energy", "speechiness","instrumentalness","liveness",
+                  "valence","tempo"]
+    
+    def id_to_df (track_id):
+        track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
+        track_df = track_df.drop(['target', "track_id"], axis=1)
+        return track_df
+
+    values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
+
+    def checkfeature (insert_feature, song_df):
+        song = song_df
+        feature = insert_feature
+        for value in values:
+            song_copy = song.copy()  # Create a copy of the DataFrame
+            feature = insert_feature
+            song_copy[feature] = song_copy[feature] * value 
+            pred = xgb_model_loaded.predict(song_copy)
+            #print(value)
+
+        if pred[0] > 0:
+            print ("HIT reached")
+            print ("You have to change " + str(feature) +" by " + str(value))
+            return value
+    def success (insert_feature, song_df):
+        if checkfeature(insert_feature, song_df ) is None:
+            print ("no success with " + str(insert_feature))
+            return 0
+        print ("success")
+    return 1
+
+    def test (track_id):
+        song_df = id_to_df(track_id)
+        for feature in tuningfeatures:
+            if success (feature, song_df) ==1:
+                print ("you have reached a HIT")
+                return 
+            
+    recommendation = test(track_id)
+    recommendation
+
 # Process the track data as needed
     return render_template('index2.html', 
                            track_data=track_data_json,
@@ -294,9 +344,10 @@ def getdata():
                            chorus_hit=chorus_hit, 
                            sections=sections, 
                            prediction=prediction_label, 
-                           prediction2=prediction_label2)
+                           prediction2=prediction_label2,
+                        recommendation=recommendation)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
 
 

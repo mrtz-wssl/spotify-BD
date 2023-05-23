@@ -153,6 +153,7 @@
             margin-right: 5px;
             font-size: 14px;
             padding: 5px 8px;
+            padding-bottom: 10xp
         }
 
         .nav-tabs .nav-link.active {
@@ -241,7 +242,7 @@
                     <h1>Welcome to RhythmRadar!</h1>
                 </div>
                 <div style="text-align: center; margin: 0 auto; max-width: 800px;">
-                    <p style="font-size: 14px; font-weight: 600; color: white;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics!</p>
+                    <p style="font-size: 14px; font-weight: 600; color: white;">Our app offers three exciting features to help you navigate the world of music. The Hit/Flop Predictor analyzes various factors to estimate a track's potential popularity. The Social Media Appearance Predictor assesses an artist's online impact and engagement. The Track Improvement Coach provides detailed analytics and suggestions to enhance your music tracks. Explore these features and take your music experience to new heights with RhythmRadar! Enjoy your journey into the world of music analytics! { recommendation }</p>
                 </div>
                 <div class="mt-5 text-center">
                     <div class="white-box" style="background-color: rgb(78, 78, 78, 0.3); padding: 20px; display: inline-block; border-radius: 5px">
@@ -272,8 +273,8 @@
                         <label for="track-id-prediction">Prediction:</label>
                         <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction }}</span>
                     </div>
-                        <img src="/static/images/feature_graph.png" alt="Plot" style="width: 100%; height: 50%;"><!-- to adjust the size of the image change width or height!-->
-                        <label for="track-id-output" style="color: #cbcecb;">Track Information:</label>
+                        <img src="/static/images/feature_graph.png" alt="Plot" style="width: 100%; height: 50%;">
+                        <label for="track-id-output" style="display: block; text-align: center; font-size: 24px; color: green;">Track Information:</label>
                     <div class="table-container mt-2">
                         <table>
                         <thead>
