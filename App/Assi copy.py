@@ -10,10 +10,10 @@ import os
 import numpy as np
 
 # def generate_and_save_graph(file_path, x, y, graph_type):
-#     plt.figure(figsize=(8, 6))  # Adjust the figure size if needed 
+#     plt.figure(figsize=(8, 6))  # Adjust the figure      size if needed 
 
 #     # if graph_type == 'line':
-#     #     plt.plot(x, y, color='gray', linewidth=2)
+#     #     plt.plot(x, y, color='gray', linewidth=2)      
 #     # elif graph_type == 'bar':
 #     #     plt.bar(x, y, color='gray')
 #     # elif graph_type == 'scatter':
@@ -24,7 +24,7 @@ import numpy as np
 #     # plt.ylabel('Y')
 #     #plt.savefig(file_path)
 #     plt.close()
-
+     
 def generate_and_save_graph():
     # Generate the chart
     # ...
@@ -50,7 +50,7 @@ def generate_feature_graph(file_path, x, y):
 
     # Set the background color to black
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path, facecolor='black')  # Save with black background
+    fig.savefig(file_path)  # Save with black background
     plt.close(fig)
 
 # Specify the save directory
@@ -115,7 +115,7 @@ def getdata():
         'type': 'track',
         'limit': 1
     }  
-    
+
  
     headers = {'Authorization': f'Bearer {access_token}'}
 
@@ -127,7 +127,7 @@ def getdata():
     track_id = search_data_json['tracks']['items'][0]['id']
 
     # Make a GET request to retrieve information about the track
-    track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID
+    track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID  
     
     track_response = requests.get(track_url, headers=headers)
     track_data_json = track_response.json()
@@ -207,17 +207,17 @@ def getdata():
         print('Failsafe: ', prediction)
         print(df.loc[df['track_id'] == track_id, 'target'])
         if prediction > 0.5:
-            prediction_label = 'Hit'
+            prediction_label = "This Song has HIT Potential!"
         else:
-            prediction_label = 'Flop'
+            prediction_label = "This Song has FLOP Potential!"
     else:
         # If not, predict it with the model
         prediction = xgb_model_loaded.predict(X_test_df)
         print('Song will be predicted')
         if prediction > 0.5:
-            prediction_label = "It's a Hit!"
+            prediction_label = "This Song has HIT Potential!"
         else:
-            prediction_label = "It's a Flop!"
+            prediction_label = "This Song has FLOP Potential!"
 
 
 
