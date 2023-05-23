@@ -57,14 +57,14 @@ def generate_feature_graph(file_path, x, y):
 # Specify the save directory
 save_directory = 'App/static/images/'
 
-# Generate and save the first graph (line plot)
+# Generate and save the first graph (line plot) 
 file_name = 'genre_heatmap.png'
 file_path = os.path.join(save_directory, file_name)
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
 # generate_and_save_graph(file_path, x, y, 'line')
 generate_and_save_graph()
-# Generate and save the second graph (spider chart) 
+# Generate and save the second graph (spider chart)  
 # file_name = 'mean-features-hits.png'
 # file_path = os.path.join(save_directory, file_name)
 # # x = ['A', 'B', 'C', 'D', 'E']
@@ -348,6 +348,6 @@ def getdata():
                         recommendation=recommendation)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
 
 
