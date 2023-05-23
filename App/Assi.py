@@ -83,7 +83,7 @@ y = np.random.rand(100)
 app = Flask(__name__)
 
 # Open the web page on Safari
-webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000/')
+webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
 
 @app.route('/')
 def index():
@@ -308,7 +308,6 @@ def getdata():
             print ("HIT reached")
             print ("You have to change " + str(feature) +" by " + str(value))
             return value
-
     def success (insert_feature, song_df):
         if checkfeature(insert_feature, song_df ) is None:
             print ("no success with " + str(insert_feature))
@@ -321,7 +320,10 @@ def getdata():
         for feature in tuningfeatures:
             if success (feature, song_df) ==1:
                 print ("you have reached a HIT")
-                return 1
+                return 
+            
+    recommendation = test(track_id)
+    recommendation
 
 # Process the track data as needed
     return render_template('index2.html', 
@@ -341,7 +343,8 @@ def getdata():
                            chorus_hit=chorus_hit, 
                            sections=sections, 
                            prediction=prediction_label, 
-                           prediction2=prediction_label2)
+                           prediction2=prediction_label2,
+                        recommendation=recommendation)
 
 if __name__ == '__main__':
     app.run(debug=True)
