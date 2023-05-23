@@ -148,10 +148,43 @@ def getdata():
     liveness = track_data_json['liveness']
     valence = track_data_json['valence']
     tempo = track_data_json['tempo']
-    # duration_ms = track_data_json['duration_ms']
+    duration_ms = track_data_json['duration_ms']
     time_signature = track_data_json['time_signature']
     chorus_hit = 30.215
     sections = 10
+    
+    # Variables for Social media prediction
+    key_A = 0
+    key_A__Bb = 0
+    key_B = 0
+    key_C = 0
+    key_C__Db = 0
+    key_D = 0
+    key_D__Eb = 0
+    key_E = 0
+    key_F = 0
+    key_F__Gb = 0
+    key_G = 0
+    key_G__Ab = 0
+    mode_major = 1
+    mode_minor = 0
+    era_00s = 0
+    era_10s = 0
+    era_20s = 0
+    era_60s = 1
+    era_70s = 0
+    era_80s = 0
+    era_90s = 0
+    main_parent_genre_Blues_and_Jazz = 0
+    main_parent_genre_Classical_and_Opera = 0
+    main_parent_genre_Country_and_Folk = 0
+    main_parent_genre_Electronic_Music_and_Dance = 0
+    main_parent_genre_Other = 0
+    main_parent_genre_Pop = 1
+    main_parent_genre_Rap_and_Hip_Hop = 0
+    main_parent_genre_Reggae_and_Ska = 0
+    main_parent_genre_Rock = 0
+    main_parent_genre_World_Music = 0
 
     X_test = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     
@@ -190,21 +223,21 @@ def getdata():
 
 
 
-# # FOR SM-TARGET PREDICTION
-#     X_test_sm = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
+# FOR SM-TARGET PREDICTION
+    X_test_sm = [[duration_ms, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, key_A, key_A__Bb, key_B, key_C, key_C__Db, key_D, key_D__Eb, key_E, key_F, key_F__Gb, key_G, key_G__Ab, mode_major, mode_minor, era_00s, era_10s, era_20s, era_60s, era_70s, era_80s, era_90s, main_parent_genre_Blues_and_Jazz, main_parent_genre_Classical_and_Opera, main_parent_genre_Country_and_Folk, main_parent_genre_Electronic_Music_and_Dance, main_parent_genre_Other, main_parent_genre_Pop, main_parent_genre_Rap_and_Hip_Hop, main_parent_genre_Reggae_and_Ska, main_parent_genre_Rock, main_parent_genre_World_Music ]]
     
-#     #Create a df with the feature names and X Test as first row
-#     feature_names_sm = ['duration_ms','danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'era', 'main_parent_genre']
-#     X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
-    #     #load pickle and test if it works
-#     rf_model_loaded = pickle.load(open('randomforest_model.pkl', 'rb'))
-#     #print(xgb_model_loaded.predict(X_test_df))
-#     # Make predictions using the loaded model
-#     prediction2 = rf_model_loaded.predict(X_test_df_sm)
-#     if prediction2 > 0.5:
-#         prediction_label2 = "It's a Social Media Hit!"
-#     else:
-#         prediction_label2 = "It's a Social Media Flop!"
+    #Create a df with the feature names and X Test as first row
+    feature_names_sm = ['duration_ms', 'danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'key_A', 'key_A#_/_Bb', 'key_B', 'key_C', 'key_C#_/_Db', 'key_D','key_D#_/_Eb', 'key_E', 'key_F', 'key_F#_/_Gb', 'key_G', 'key_G#_/_Ab', 'mode_major', 'mode_minor', 'era_00s', 'era_10s', 'era_20s', 'era_60s', 'era_70s', 'era_80s', 'era_90s', 'main_parent_genre_Blues_and_Jazz', 'main_parent_genre_Classical_and_Opera', 'main_parent_genre_Country_and_Folk', 'main_parent_genre_Electronic_Music_and_Dance', 'main_parent_genre_Other', 'main_parent_genre_Pop', 'main_parent_genre_Rap_and_Hip_Hop', 'main_parent_genre_Reggae_and_Ska', 'main_parent_genre_Rock', 'main_parent_genre_World_Music']
+    X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
+        #load pickle and test if it works
+    rf_model_loaded = pickle.load(open('randomforest_model.pkl', 'rb'))
+    #print(xgb_model_loaded.predict(X_test_df))
+    # Make predictions using the loaded model
+    prediction2 = rf_model_loaded.predict(X_test_df_sm)
+    if prediction2 > 0.5:
+        prediction_label2 = "It's a Social Media Hit!"
+    else:
+        prediction_label2 = "It's a Social Media Flop!"
 
 
 #END SM-TARGET PREDICTION
@@ -243,12 +276,8 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
-
-
-
-
 # Process the track data as needed
-    return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label)
+    return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label, prediction2=prediction_label2)
 
 if __name__ == '__main__':
     app.run(debug=True)
