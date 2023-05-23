@@ -44,16 +44,13 @@ def generate_feature_graph(file_path, x, y):
 
     fig, ax = plt.subplots(figsize=(15, 10))
     ax.plot(x, y, color='#1DB954')
-    ax.plot(x, y, 'o', color='white', linewidth=5)
-    ax.axhline(y=0, color='white')
-    ax.grid(axis='x', color='white', linestyle='-', linewidth=0.5)
+    ax.plot(x, y, 'o', color='black', linewidth=5)
+    ax.axhline(y=0, color='black')
+    ax.grid(axis='x', color='black', linestyle='-', linewidth=0.5)
 
     # Set the background color to black
-    fig.set_facecolor('black')
-    
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-
-    fig.savefig(file_path, facecolor=fig.get_facecolor())  # Save with black background
+    fig.savefig(file_path, facecolor='black')  # Save with black background
     plt.close(fig)
 
 # Specify the save directory
