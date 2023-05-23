@@ -277,7 +277,24 @@ def getdata():
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
 # Process the track data as needed
-    return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label, prediction2=prediction_label2)
+    return render_template('index2.html', 
+                           track_data=track_data_json,
+                           danceability=danceability, 
+                           energy=energy, 
+                           key=key, 
+                           loudness=loudness, 
+                           mode=mode, 
+                           speechiness=speechiness,
+                           acousticness=acousticness, 
+                           instrumentalness=instrumentalness, 
+                           liveness=liveness, 
+                           valence=valence, 
+                           tempo=tempo, 
+                           time_signature=time_signature, 
+                           chorus_hit=chorus_hit, 
+                           sections=sections, 
+                           prediction=prediction_label, 
+                           prediction2=prediction_label2)
 
 if __name__ == '__main__':
     app.run(debug=True)
