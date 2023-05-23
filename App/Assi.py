@@ -117,7 +117,8 @@ def getdata():
         'q': f'artist:{artist_name} track:{track_name}',
         'type': 'track',
         'limit': 1
-    }
+    }  
+    
  
     headers = {'Authorization': f'Bearer {access_token}'}
 
@@ -241,6 +242,8 @@ def getdata():
 
 
 #END SM-TARGET PREDICTION
+
+
     #### Create a graph: ####
     graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
 
