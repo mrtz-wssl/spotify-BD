@@ -117,25 +117,16 @@ def getdata():
         'q': f'artist:{artist_name} track:{track_name}',
         'type': 'track',
         'limit': 1
-    }
-
+    }  
+ 
     headers = {'Authorization': f'Bearer {access_token}'}
 
     search_response = requests.get(search_url, headers=headers, params=search_params)
     print('Search Prompt', search_response)
-    search_data_json = search_response.json()   
+    search_data_json = search_response.json()
+    print('Search Data', search_data_json)   
 
     track_id = search_data_json['tracks']['items'][0]['id']
-
-    # artist_name = search_data_json['tracks']['items'][0]['artists'][0]['name'] - THIBAUD
-
-    #Match song name with the trackid
-    # track_name = search_data_json['tracks']['items'][0]['name'] - THIBAUD
-
-    #Make a GET request to retrive information about the track based on either the track name or the artist name 
-    # track_url = f'https://api.spotify.com/v1/search?q=track:{track_name}&type=track&limit=1'
-    # track_url = f'https://api.spotify.com/v1/search?q=artist:{artist_name}&type=artist&limit=1'
-    # track_url = f'https://api.spotify.com/v1/search?q=artist:{artist_name} track:{track_name}&type=track&limit=1'
 
     # Make a GET request to retrieve information about the track
     track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID
@@ -172,11 +163,30 @@ def getdata():
     xgb_model_loaded = pickle.load(open('xgb_model.pkl', 'rb'))
     #print(xgb_model_loaded.predict(X_test_df))
     # Make predictions using the loaded model
-    prediction = xgb_model_loaded.predict(X_test_df)
-    if prediction > 0.5:
-        prediction_label = "It's a Hit!"
+
+
+    df = pd.read_csv('TikTokSpotifyMerged.csv')
+    df = df.reset_index(drop=True)
+
+    # Check whether the song is in the Spotify data set
+    print(f"Checking track ID: {track_id}")
+    if track_id in df['track_id'].values:
+        # If yes, retrieve the classification from the data set
+        prediction = df.loc[df['track_id'] == track_id, 'target'].values[0]
+        print('Failsafe: ', prediction)
+        print(df.loc[df['track_id'] == track_id, 'target'])
+        if prediction > 0.5:
+            prediction_label = 'Hit'
+        else:
+            prediction_label = 'Flop'
     else:
-        prediction_label = "It's a Flop!"
+        # If not, predict it with the model
+        prediction = xgb_model_loaded.predict(X_test_df)
+        print('Song will be predicted')
+        if prediction > 0.5:
+            prediction_label = "It's a Hit!"
+        else:
+            prediction_label = "It's a Flop!"
 
 
 
@@ -186,8 +196,7 @@ def getdata():
 #     #Create a df with the feature names and X Test as first row
 #     feature_names_sm = ['duration_ms','danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'era', 'main_parent_genre']
 #     X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
-    
-#     #load pickle and test if it works
+    #     #load pickle and test if it works
 #     rf_model_loaded = pickle.load(open('randomforest_model.pkl', 'rb'))
 #     #print(xgb_model_loaded.predict(X_test_df))
 #     # Make predictions using the loaded model
@@ -199,12 +208,14 @@ def getdata():
 
 
 #END SM-TARGET PREDICTION
+
+
     #### Create a graph: ####
     graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
 
     
     # Load your data into a pandas DataFrame
-    df = pd.read_csv('TikTokSpotifyMerged.csv')
+    
 
     # Calculate mean values
     mean_tempo = df['tempo'].mean()
