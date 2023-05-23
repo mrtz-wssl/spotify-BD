@@ -17,13 +17,14 @@ import numpy as np
 #     # elif graph_type == 'bar':
 #     #     plt.bar(x, y, color='gray')
 #     # elif graph_type == 'scatter':
-#     #     plt.scatter(x, y, color='gray')©
+#     #     plt.scatter(x, y, color='gray')
 #     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight') 
 #     # plt.title('Fancy Graph')
 #     # plt.xlabel('X')
-#     # plt.ylabel('Y') 
+#     # plt.ylabel('Y')
 #     #plt.savefig(file_path)
-#     plt.close()     
+#     plt.close()
+     
 def generate_and_save_graph():
     # Generate the chart
     # ...
@@ -31,7 +32,7 @@ def generate_and_save_graph():
     # Save the chart as "mean-features-hits.png"
     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
 
-    #Save the chart /static/images/genre_heatmap.pngd
+    #Save the chart /static/images/genre_heatmap.png
     plt.savefig('genre_heatmap.png')
     plt.close()
     # plt.show
@@ -42,15 +43,14 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.plot(x, y, color='#1DB954', linewidth=0.3)
-    ax.plot(x, y, 'o', color='blue', linewidth = 0.3, markersize = 10) 
-    ax.axhline(y=0, color='grey')
-    ax.grid(axis='x', color='grey', linestyle='-', linewidth=0.5) 
+    ax.plot(x, y, color='#1DB954')
+    ax.plot(x, y, 'o', color='black', linewidth=5)
+    ax.axhline(y=0, color='black')
+    ax.grid(axis='x', color='black', linestyle='-', linewidth=0.5)
 
     # Set the background color to black
-    fig.patch.set_facecolor('black')
     ax.fill_between(x, y, color='#1DB954', alpha=0.3)
-    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with black background  
+    fig.savefig(file_path)  # Save with black background
     plt.close(fig)
 
 # Specify the save directory
@@ -83,20 +83,18 @@ y = np.random.rand(100)
 app = Flask(__name__)
 
 # Open the web page on Safari
-webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
+webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000/')
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('donottouch.html')
 
 @app.route('/getdata', methods=['POST'])
 def getdata():
     
     # Get the artist and track name from the form 
-    # artist_name = request.form['artist-name-input']
-    # track_name = request.form['track-id-input']
-    artist_name = "Drake"
-    track_name = "One Dance"
+    artist_name = request.form['artist-name-input']
+    track_name = request.form['track-id-input']
     print(artist_name, track_name)  
 
     # Make a POST request to obtain the access token
@@ -278,78 +276,8 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
-    data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
-    #create duration_ms
-    data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
-    # Drop unnecessary columns
-    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
-
-    tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
-                  "energy", "speechiness","instrumentalness","liveness",
-                  "valence","tempo","time_signature"]
-    
-    def id_to_df (track_id):
-        track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
-        track_df = track_df.drop([ "track_id"], axis=1)
-        return track_df
-
-    values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
-
-    def checkfeature (insert_feature, song_df):
-        song = song_df
-        feature = insert_feature
-        for value in values:
-            song_copy = song.copy()  # Create a copy of the DataFrame
-            feature = insert_feature
-            song_copy[feature] = song_copy[feature] * value 
-
-            if song_copy.empty:
-                continue
-            pred = xgb_model_loaded.predict(song_copy)
-            #print(value)
-
-            if pred[0] > 0:
-                print ("HIT reached")
-                print ("You have to change " + str(feature) +" by " + str(value))
-                return value
-    def success (insert_feature, song_df):
-        if checkfeature(insert_feature, song_df ) is None:
-            print ("no success with " + str(insert_feature))
-            return 0
-        print ("success")
-        return 1
-
-    def test (track_id):
-        song_df = id_to_df(track_id)
-        for feature in tuningfeatures:
-            if success (feature, song_df) ==1:
-                print ("you have reached a HIT")
-                return 
-            
-    recommendation = test(track_id)
-    print(recommendation)
-
 # Process the track data as needed
-    return render_template('index2.html', 
-                           track_data=track_data_json,
-                           danceability=danceability, 
-                           energy=energy, 
-                           key=key, 
-                           loudness=loudness, 
-                           mode=mode, 
-                           speechiness=speechiness,
-                           acousticness=acousticness, 
-                           instrumentalness=instrumentalness, 
-                           liveness=liveness, 
-                           valence=valence, 
-                           tempo=tempo, 
-                           time_signature=time_signature, 
-                           chorus_hit=chorus_hit, 
-                           sections=sections, 
-                           prediction=prediction_label, 
-                           prediction2=prediction_label2,
-                           recommendation=recommendation
-                        )
+    return render_template('donottouch.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label, prediction2=prediction_label2)
 
 if __name__ == '__main__':
     app.run(debug=True)
