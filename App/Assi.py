@@ -42,7 +42,6 @@ def generate_feature_graph(file_path, x, y):
     # Calculation of the mean song tempo
     mean_tempo = np.mean(y)
 
-    x.drop()
     fig, ax = plt.subplots(figsize=(15, 10))
     ax.plot(x, y, color='#1DB954')
     ax.plot(x, y, 'o', color='white', linewidth=5)
@@ -181,22 +180,23 @@ def getdata():
 
 
 
-# FOR SM-TARGET PREDICTION
-    X_test_sm = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
+# # FOR SM-TARGET PREDICTION
+#     X_test_sm = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     
-    #Create a df with the feature names and X Test as first row
-    feature_names_sm = ['duration_ms','danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'era', 'main_parent_genre']
-    X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
+#     #Create a df with the feature names and X Test as first row
+#     feature_names_sm = ['duration_ms','danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'era', 'main_parent_genre']
+#     X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
     
-    #load pickle and test if it works
-    rf_model_loaded = pickle.load(open('randomforest_model.pkl', 'rb'))
-    #print(xgb_model_loaded.predict(X_test_df))
-    # Make predictions using the loaded model
-    prediction2 = rf_model_loaded.predict(X_test_df_sm)
-    if prediction2 > 0.5:
-        prediction_label2 = "It's a Social Media Hit!"
-    else:
-        prediction_label2 = "It's a Social Media Flop!"
+#     #load pickle and test if it works
+#     rf_model_loaded = pickle.load(open('randomforest_model.pkl', 'rb'))
+#     #print(xgb_model_loaded.predict(X_test_df))
+#     # Make predictions using the loaded model
+#     prediction2 = rf_model_loaded.predict(X_test_df_sm)
+#     if prediction2 > 0.5:
+#         prediction_label2 = "It's a Social Media Hit!"
+#     else:
+#         prediction_label2 = "It's a Social Media Flop!"
+
 
 #END SM-TARGET PREDICTION
     #### Create a graph: ####
@@ -220,7 +220,8 @@ def getdata():
 
 
     # Modify your feature data
-    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify' ])
+    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo' ])
+    print (df.columns)
     scaler = MaxAbsScaler()
     scaler.fit(df)
 
@@ -238,7 +239,7 @@ def getdata():
 
 
 # Process the track data as needed
-    return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label, prediction2=prediction_label2)
+    return render_template('index2.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label)
 
 if __name__ == '__main__':
     app.run(debug=True)
