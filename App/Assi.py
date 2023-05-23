@@ -42,6 +42,7 @@ def generate_feature_graph(file_path, x, y):
     # Calculation of the mean song tempo
     mean_tempo = np.mean(y)
 
+    x.drop()
     fig, ax = plt.subplots(figsize=(15, 10))
     ax.plot(x, y, color='#1DB954')
     ax.plot(x, y, 'o', color='white', linewidth=5)
@@ -193,8 +194,11 @@ def getdata():
     deviation_tempo = abs(tempo - mean_tempo)
     deviation_chorus_hit = abs(chorus_hit - mean_chorus_hit)
 
-    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
-    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
+    # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
+    # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
+    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, time_signature, sections]]
+    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'time_signature', 'sections']
+
 
     # Modify your feature data
     df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify' ])
@@ -209,6 +213,9 @@ def getdata():
 
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
+
+
+
 
 
 # Process the track data as needed
