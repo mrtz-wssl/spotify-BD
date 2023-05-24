@@ -300,7 +300,7 @@ def getdata():
     
     values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
     
-    output1 = "Hey, maybe try to change time_signature by 0.2 to reach a HIT prediction."
+    output1 = "Very sorry, I got no recommendation for you."
     #---------------------------------------------------------------------------------
     
     track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
@@ -317,10 +317,10 @@ def getdata():
             #print(value)
             print("check3")
 
-            if pred[0] > 0:
+            if pred[0] > 0 and prediction > 0.5:
                 print ("HIT reached")
                 output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
-            if pred[0] < 0:
+            else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
     
