@@ -207,17 +207,17 @@ def getdata():
         print('Failsafe: ', prediction)
         print(df.loc[df['track_id'] == track_id, 'target'])
         if prediction > 0.5:
-            prediction_label = "This Song has HIT Potential!"
+            prediction_label = "This track has HIT Potential!"
         else:
-            prediction_label = "This Song has FLOP Potential!"
+            prediction_label = "This track has FLOP Potential!"
     else:
         # If not, predict it with the model
         prediction = xgb_model_loaded.predict(X_test_df)
         print('Song will be predicted')
         if prediction > 0.5:
-            prediction_label = "This Song has HIT Potential!"
+            prediction_label = "This track has HIT Potential!"
         else:
-            prediction_label = "This Song has FLOP Potential!"
+            prediction_label = "This track has FLOP Potential!"
 
 
 
