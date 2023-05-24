@@ -310,7 +310,7 @@ def getdata():
     track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
     track_df = track_df.drop(["track_id"], axis=1)
     print(track_df)
-    for feature in tuningfeatures:
+    for feature in tuningfeatures: 
         for value in values:
             song_copy = track_df.copy()  # Create a copy of the DataFrame
             song_copy[feature] = song_copy[feature] * value 
@@ -321,7 +321,7 @@ def getdata():
             #print(value)
             print("check3")
 
-            if pred[0] > 0 and prediction > 0.5:
+            if pred[0] > 0 and prediction > 0.5: 
                 print ("HIT reached")
                 output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
             elif prediction > 0.5 and failsafe == True: 
