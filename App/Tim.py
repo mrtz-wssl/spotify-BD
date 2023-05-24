@@ -99,7 +99,7 @@ webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('tim.html')
 
 @app.route('/getdata', methods=['POST'])
 def getdata():
@@ -327,7 +327,7 @@ def getdata():
     #---------------------------------------------------------------------------------
 
     # Process the track data as needed
-    return render_template('index2.html', 
+    return render_template('tim.html', 
                            track_data=track_data_json,
                            danceability=danceability, 
                            energy=energy, 
