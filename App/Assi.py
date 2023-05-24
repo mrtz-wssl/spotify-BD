@@ -323,10 +323,10 @@ def getdata():
 
             if pred[0] > 0 and prediction > 0.5: 
                 print ("HIT reached")
-                output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
+                output1 = "You already have a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
             elif prediction > 0.5 and failsafe == True: 
                 print("HIT already reached")
-                output1 = 'Your Song has already HIT potential'
+                output1 = 'Your track has already HIT potential'
             else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
