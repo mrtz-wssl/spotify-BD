@@ -174,15 +174,15 @@ def getdata():
     era_80s = 0
     era_90s = 0
     main_parent_genre_Blues_and_Jazz = 0
-    main_parent_genre_Classical_and_Opera = 0
-    main_parent_genre_Country_and_Folk = 0
-    main_parent_genre_Electronic_Music_and_Dance = 0
-    main_parent_genre_Other = 0
-    main_parent_genre_Pop = 1
-    main_parent_genre_Rap_and_Hip_Hop = 0
-    main_parent_genre_Reggae_and_Ska = 0
-    main_parent_genre_Rock = 0
-    main_parent_genre_World_Music = 0
+    main_parent_genre_Classical_and_Opera = 1
+    main_parent_genre_Country_and_Folk = 2
+    main_parent_genre_Electronic_Music_and_Dance = 3
+    main_parent_genre_Other = 4
+    main_parent_genre_Pop = 5
+    main_parent_genre_Rap_and_Hip_Hop = 6
+    main_parent_genre_Reggae_and_Ska = 7
+    main_parent_genre_Rock = 8
+    main_parent_genre_World_Music = 9
 
     X_test = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     
@@ -191,7 +191,7 @@ def getdata():
     X_test_df = pd.DataFrame(X_test, columns=feature_names)
     
     #load pickle and test if it works
-    xgb_model_loaded = pickle.load(open('xgb_model.pkl', 'rb'))
+    xgb_model_loaded = pickle.load(open('xgb_model_genre.pkl', 'rb'))
     #print(xgb_model_loaded.predict(X_test_df))
     # Make predictions using the loaded model
 
