@@ -17,13 +17,14 @@ import numpy as np
 #     # elif graph_type == 'bar':
 #     #     plt.bar(x, y, color='gray')
 #     # elif graph_type == 'scatter':
-#     #     plt.scatter(x, y, color='gray')©
+#     #     plt.scatter(x, y, color='gray')
 #     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight') 
 #     # plt.title('Fancy Graph')
 #     # plt.xlabel('X')
-#     # plt.ylabel('Y') 
+#     # plt.ylabel('Y')
 #     #plt.savefig(file_path)
-#     plt.close()     
+#     plt.close()
+     
 def generate_and_save_graph():
     # Generate the chart
     # ...
@@ -31,7 +32,7 @@ def generate_and_save_graph():
     # Save the chart as "mean-features-hits.png"
     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
 
-    #Save the chart /static/images/genre_heatmap.pngd
+    #Save the chart /static/images/genre_heatmap.png
     plt.savefig('genre_heatmap.png')
     plt.close()
     # plt.show
@@ -42,27 +43,14 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.plot(x, y, color='#1DB954', linewidth=0.3)
-    ax.plot(x, y, 'o', color='#1DB954', linewidth=0.3, markersize=10)  # Green points
-    ax.axhline(y=0, color='#1DB954')  # Green horizontal line
-    ax.grid(axis='x', color='#1DB954', linestyle='-', linewidth=0.5)  # Green grid lines
+    ax.plot(x, y, color='#1DB954')
+    ax.plot(x, y, 'o', color='black', linewidth=5)
+    ax.axhline(y=0, color='black')
+    ax.grid(axis='x', color='black', linestyle='-', linewidth=0.5)
 
-    # Set the background color to slightly transparent black
-    fig.patch.set_facecolor('black')
-    fig.patch.set_alpha(0.7)  # Adjust transparency
-    ax.fill_between(x, y, color='#1DB954', alpha=0.2)
-
-    # Set the text color to white for the grid labels and border
-    ax.xaxis.label.set_color('white')
-    ax.yaxis.label.set_color('white')
-    ax.spines['bottom'].set_color('white')
-    ax.spines['top'].set_color('white')
-    ax.spines['left'].set_color('white')
-    ax.spines['right'].set_color('white')
-    ax.tick_params(axis='x', colors='white')
-    ax.tick_params(axis='y', colors='white')
-
-    fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with black background
+    # Set the background color to black
+    ax.fill_between(x, y, color='#1DB954', alpha=0.3)
+    fig.savefig(file_path)  # Save with black background
     plt.close(fig)
 
 # Specify the save directory
@@ -95,11 +83,11 @@ y = np.random.rand(100)
 app = Flask(__name__)
 
 # Open the web page on Safari
-webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
+webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000/')
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('donottouch.html')
 
 @app.route('/getdata', methods=['POST'])
 def getdata():
@@ -288,65 +276,8 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
 
-    data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
-    #create duration_ms
-    data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
-    # Drop unnecessary columns
-    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
-
-    tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
-                  "energy", "speechiness","instrumentalness","liveness",
-                  "valence","tempo","time_signature"]
-    
-    values = [1, 0.8, 1.2, 0.6, 1.4, 0.4, 1.6, 0.2]
-    
-    output1 = "Very sorry, I got no recommendation for you."
-    #---------------------------------------------------------------------------------
-    
-    track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
-    track_df = track_df.drop(["track_id"], axis=1)
-    print(track_df)
-    for feature in tuningfeatures:
-        for value in values:
-            song_copy = track_df.copy()  # Create a copy of the DataFrame
-            song_copy[feature] = song_copy[feature] * value 
-            print("check2")
-            if song_copy.empty:
-                continue
-            pred = xgb_model_loaded.predict(song_copy)
-            #print(value)
-            print("check3")
-
-            if pred[0] > 0 and prediction > 0.5:
-                print ("HIT reached")
-                output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
-            else:
-                print ("FLOP reached")
-                output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
-    
-    #---------------------------------------------------------------------------------
-
-    # Process the track data as needed
-    return render_template('index2.html', 
-                           track_data=track_data_json,
-                           danceability=danceability, 
-                           energy=energy, 
-                           key=key, 
-                           loudness=loudness, 
-                           mode=mode, 
-                           speechiness=speechiness,
-                           acousticness=acousticness, 
-                           instrumentalness=instrumentalness, 
-                           liveness=liveness, 
-                           valence=valence, 
-                           tempo=tempo, 
-                           time_signature=time_signature, 
-                           chorus_hit=chorus_hit, 
-                           sections=sections, 
-                           prediction=prediction_label, 
-                           prediction2=prediction_label2,
-                           output1=output1
-                        )
+# Process the track data as needed
+    return render_template('donottouch.html', track_data=track_data_json, danceability=danceability, energy=energy, key=key, loudness=loudness, mode=mode, speechiness=speechiness, acousticness=acousticness, instrumentalness=instrumentalness, liveness=liveness, valence=valence, tempo=tempo, time_signature=time_signature, chorus_hit=chorus_hit, sections=sections, prediction=prediction_label, prediction2=prediction_label2)
 
 if __name__ == '__main__':
     app.run(debug=True)
