@@ -43,7 +43,16 @@
             font-size: 24px;
             color: #1DB954;
         }
-    
+        
+        h3 {
+            text-align: left;
+            margin-top: 50px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 20px;
+            color: white;
+        }
+
         .form-group label, .track-info label {
             font-weight: 500;
             font-size: 18px;
@@ -280,7 +289,9 @@
                     </div>
                         <img src="/static/images/feature_graph.png" alt="Plot" style="width: 100%; height: 50%;"><!-- to adjust the size of the image change width or height!-->
                         <p></p>
-                        <label for="track-id-output" style="color: #cbcecb;">Track Information:</label>
+                        <h3>
+                            <label for="track-id-output" style="color: #cbcecb;">Track Information:</label>
+                        </h3>
                     <div class="table-container mt-2">
                         <table>
                         <thead>
@@ -350,7 +361,9 @@
                         </table>
                     </div>
                     <p></p>
-                    <p style="color: #cbcecb;">Recommendation: {{ output1 }}</p>
+                    <h3>
+                        <p style="color: #cbcecb;">Recommendation: {{ output1 }}</p>
+                    </h3>
                 </div>    
             </div>
             
