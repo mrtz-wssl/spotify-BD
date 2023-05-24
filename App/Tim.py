@@ -42,17 +42,15 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.set_title("Main Song Feature Visualization", color='white', fontsize=20, fontweight='bold', pad=20)
     ax.plot(x, y, color='#1DB954', linewidth=0.3)
     ax.plot(x, y, 'o', color='#1DB954', linewidth=0.3, markersize=10)  # Green points
     ax.axhline(y=0, color='#1DB954')  # Green horizontal line
     ax.grid(axis='x', color='#1DB954', linestyle='-', linewidth=0.5)  # Green grid lines
-    ax.set(ylim=(0, 1))  # Set the y-axis limits
 
     # Set the background color to slightly transparent black
     fig.patch.set_facecolor('black')
-    fig.patch.set_alpha(0.8)  # Adjust transparency
-    ax.fill_between(x, y, color='#1DB954', alpha=0.2) 
+    fig.patch.set_alpha(0.7)  # Adjust transparency
+    ax.fill_between(x, y, color='#1DB954', alpha=0.2)
 
     # Set the text color to white for the grid labels and border
     ax.xaxis.label.set_color('white')
@@ -101,7 +99,7 @@ webbrowser.get('safari').open_new_tab('http://127.0.0.1:5000')
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('tim.html')
 
 @app.route('/getdata', methods=['POST'])
 def getdata():
@@ -122,7 +120,7 @@ def getdata():
     token_response_data = token_response.json()
     access_token = token_response_data['access_token']
 
-    # Search for the track on Spotify 
+    # Search for the track on Spotify
     search_url = 'https://api.spotify.com/v1/search'
     search_params = {
         'q': f'artist:{artist_name} track:{track_name}',
@@ -219,7 +217,6 @@ def getdata():
         # If yes, retrieve the classification from the data set
         prediction = df.loc[df['track_id'] == track_id, 'target'].values[0]
         print('Failsafe: ', prediction)
-        failsafe = True
         print(df.loc[df['track_id'] == track_id, 'target'])
         if prediction > 0.5:
             prediction_label = "This Song has HIT Potential!"
@@ -228,7 +225,6 @@ def getdata():
     else:
         # If not, predict it with the model
         prediction = xgb_model_loaded.predict(X_test_df)
-        failsafe = False
         print('Song will be predicted')
         if prediction > 0.5:
             prediction_label = "This Song has HIT Potential!"
@@ -273,12 +269,12 @@ def getdata():
 
     # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
-    graph_data = [[danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence]]
-    feature_names = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence',]
+    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, time_signature, sections]]
+    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'time_signature', 'sections']
 
 
     # Modify your feature data
-    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo', 'sections', 'loudness', 'time_signature'])
+    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo' ])
     print (df.columns)
     scaler = MaxAbsScaler()
     scaler.fit(df)
@@ -310,7 +306,7 @@ def getdata():
     track_df = data_tofindtrack[data_tofindtrack['track_id'] == track_id]
     track_df = track_df.drop(["track_id"], axis=1)
     print(track_df)
-    for feature in tuningfeatures: 
+    for feature in tuningfeatures:
         for value in values:
             song_copy = track_df.copy()  # Create a copy of the DataFrame
             song_copy[feature] = song_copy[feature] * value 
@@ -321,20 +317,17 @@ def getdata():
             #print(value)
             print("check3")
 
-            if pred[0] > 0 and prediction > 0.5: 
+            if pred[0] > 0 and prediction > 0.5:
                 print ("HIT reached")
                 output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
-            elif prediction > 0.5 and failsafe == True: 
-                print("HIT already reached")
-                output1 = 'Your Song has already HIT potential'
             else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
     
-    #--------------------------------------------------------------------------------- 
+    #---------------------------------------------------------------------------------
 
     # Process the track data as needed
-    return render_template('index2.html', 
+    return render_template('tim.html', 
                            track_data=track_data_json,
                            danceability=danceability, 
                            energy=energy, 
@@ -356,6 +349,6 @@ def getdata():
                         )
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
 
 
