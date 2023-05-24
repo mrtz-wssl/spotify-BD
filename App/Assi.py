@@ -88,10 +88,10 @@ generate_and_save_graph()
 
 # Generate and save the third graph (scatter plot)
 file_name = 'graph3.png'
-file_path = os.path.join(save_directory, file_name)
+file_path = os.path.join(save_directory, file_name) 
 x = np.random.rand(100)
 y = np.random.rand(100)
-# generate_and_save_graph(file_path, x, y, 'scatter')
+# generate_and_save_graph(file_path, x, y, 'scatter') 
 
 
 app = Flask(__name__)
