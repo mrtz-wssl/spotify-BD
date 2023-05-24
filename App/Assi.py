@@ -311,7 +311,7 @@ def getdata():
             return value
     def success (insert_feature, song_df):
         if checkfeature(insert_feature, song_df ) is None:
-            print ("no success with " + str(insert_feature))
+            print ("no success with " + str(insert_feature)) 
             return 0
         print ("success")
     return 1
@@ -324,7 +324,7 @@ def getdata():
                 return 
             
     recommendation = test(track_id)
-    recommendation
+    recommendation 
 
 # Process the track data as needed
     return render_template('index2.html', 
