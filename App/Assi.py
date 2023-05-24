@@ -42,7 +42,7 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
-    ax.set_title("Main Song Feature Visualization", color='white')
+    ax.set_title("Main Song Feature Visualization", color='white', fontsize=20, fontweight='bold', pad=20)
     ax.plot(x, y, color='#1DB954', linewidth=0.3)
     ax.plot(x, y, 'o', color='#1DB954', linewidth=0.3, markersize=10)  # Green points
     ax.axhline(y=0, color='#1DB954')  # Green horizontal line
@@ -324,13 +324,14 @@ def getdata():
             if pred[0] > 0 and prediction > 0.5:
                 print ("HIT reached")
                 output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
-            #elif : 
-            
+            elif prediction > 0.5 and failsafe == True: 
+                print("HIT already reached")
+                output1 = 'Your Song has already HIT potential'
             else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
     
-    #---------------------------------------------------------------------------------
+    #--------------------------------------------------------------------------------- 
 
     # Process the track data as needed
     return render_template('index2.html', 
@@ -355,6 +356,6 @@ def getdata():
                         )
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
 
 
