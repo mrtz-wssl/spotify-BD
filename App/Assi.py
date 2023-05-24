@@ -42,15 +42,17 @@ def generate_feature_graph(file_path, x, y):
     mean_tempo = np.mean(y)
 
     fig, ax = plt.subplots(figsize=(15, 10))
+    ax.set_title("Main Song Feature Visualization", color='white')
     ax.plot(x, y, color='#1DB954', linewidth=0.3)
     ax.plot(x, y, 'o', color='#1DB954', linewidth=0.3, markersize=10)  # Green points
     ax.axhline(y=0, color='#1DB954')  # Green horizontal line
     ax.grid(axis='x', color='#1DB954', linestyle='-', linewidth=0.5)  # Green grid lines
+    ax.set(ylim=(0, 1))  # Set the y-axis limits
 
     # Set the background color to slightly transparent black
     fig.patch.set_facecolor('black')
-    fig.patch.set_alpha(0.7)  # Adjust transparency
-    ax.fill_between(x, y, color='#1DB954', alpha=0.2)
+    fig.patch.set_alpha(0.8)  # Adjust transparency
+    ax.fill_between(x, y, color='#1DB954', alpha=0.2) 
 
     # Set the text color to white for the grid labels and border
     ax.xaxis.label.set_color('white')
@@ -120,7 +122,7 @@ def getdata():
     token_response_data = token_response.json()
     access_token = token_response_data['access_token']
 
-    # Search for the track on Spotify
+    # Search for the track on Spotify 
     search_url = 'https://api.spotify.com/v1/search'
     search_params = {
         'q': f'artist:{artist_name} track:{track_name}',
@@ -217,6 +219,7 @@ def getdata():
         # If yes, retrieve the classification from the data set
         prediction = df.loc[df['track_id'] == track_id, 'target'].values[0]
         print('Failsafe: ', prediction)
+        failsafe = True
         print(df.loc[df['track_id'] == track_id, 'target'])
         if prediction > 0.5:
             prediction_label = "This Song has HIT Potential!"
@@ -225,6 +228,7 @@ def getdata():
     else:
         # If not, predict it with the model
         prediction = xgb_model_loaded.predict(X_test_df)
+        failsafe = False
         print('Song will be predicted')
         if prediction > 0.5:
             prediction_label = "This Song has HIT Potential!"
@@ -269,12 +273,12 @@ def getdata():
 
     # graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     # feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'deviation_tempo', 'time_signature', 'deviation_chorus_hit', 'sections']
-    graph_data = [[danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, time_signature, sections]]
-    feature_names = ['danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'time_signature', 'sections']
+    graph_data = [[danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence]]
+    feature_names = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence',]
 
 
     # Modify your feature data
-    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo' ])
+    df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo', 'sections', 'loudness', 'time_signature'])
     print (df.columns)
     scaler = MaxAbsScaler()
     scaler.fit(df)
@@ -320,6 +324,8 @@ def getdata():
             if pred[0] > 0 and prediction > 0.5:
                 print ("HIT reached")
                 output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
+            #elif : 
+            
             else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
