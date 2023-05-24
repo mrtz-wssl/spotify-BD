@@ -19,7 +19,7 @@ import numpy as np
 #     # elif graph_type == 'scatter':
 #     #     plt.scatter(x, y, color='gray')©
 #     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight') 
-#     # plt.title('Fancy Graph')
+#     # plt.title('Fancy Graph')   
 #     # plt.xlabel('X')
 #     # plt.ylabel('Y') 
 #     #plt.savefig(file_path)
