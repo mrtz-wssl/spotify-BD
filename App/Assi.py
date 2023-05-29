@@ -12,12 +12,9 @@ import numpy as np
 ##### Definition of Graph functions #####
 
 def generate_and_save_graph():
-    # Generate the chart
-    # ...
 
     # Save the chart as "mean-features-hits.png"
     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight')
-
     #Save the chart /static/images/genre_heatmap.pngd
     plt.savefig('genre_heatmap.png')
     plt.close()
@@ -49,7 +46,8 @@ def generate_feature_graph(file_path, x, y):
     ax.spines['right'].set_color('white')
     ax.tick_params(axis='x', colors='white')
     ax.tick_params(axis='y', colors='white')
-
+    
+    # Save the chart
     fig.savefig(file_path, facecolor=fig.get_facecolor(), transparent=True)  # Save with transparent background
     plt.close(fig)
 
@@ -62,8 +60,6 @@ file_path = os.path.join(save_directory, file_name)
 x = np.linspace(0, 10, 100)
 y = np.sin(x)
 
-
-
 generate_and_save_graph()
 
 # Generate and save the third graph (scatter plot)
@@ -71,7 +67,6 @@ file_name = 'graph3.png'
 file_path = os.path.join(save_directory, file_name) 
 x = np.random.rand(100)
 y = np.random.rand(100)
-
 
 # ----------------------------- # Beginning of the Flask app # ----------------------------- #
 app = Flask(__name__)
@@ -111,17 +106,15 @@ def getdata():
     } 
 
     headers = {'Authorization': f'Bearer {access_token}'}
-
+    # Make a GET request to retrieve the track ID
     search_response = requests.get(search_url, headers=headers, params=search_params)
     print('Search Prompt', search_response)
     search_data_json = search_response.json()
     print('Search Data', search_data_json)   
-
     track_id = search_data_json['tracks']['items'][0]['id']
 
     # Make a GET request to retrieve information about the track
     track_url = f'https://api.spotify.com/v1/audio-features/{track_id}'  # Construct the URL with the track ID  
-    
     track_response = requests.get(track_url, headers=headers)
     track_data_json = track_response.json()
 
@@ -177,7 +170,7 @@ def getdata():
     main_parent_genre_Reggae_and_Ska = 0
     main_parent_genre_Rock = 0
     main_parent_genre_World_Music = 0
-
+    # Create a list of the variables
     X_test = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     
 ##### Hit/ Flop Prediction #####
@@ -218,8 +211,6 @@ def getdata():
         else:
             prediction_label = "This Song has FLOP Potential!"
 
-
-
 ##### Social Media Potential Prediction #####
 
     X_test_sm = [[duration_ms, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, key_A, key_A__Bb, key_B, key_C, key_C__Db, key_D, key_D__Eb, key_E, key_F, key_F__Gb, key_G, key_G__Ab, mode_major, mode_minor, era_00s, era_10s, era_20s, era_60s, era_70s, era_80s, era_90s, main_parent_genre_Blues_and_Jazz, main_parent_genre_Classical_and_Opera, main_parent_genre_Country_and_Folk, main_parent_genre_Electronic_Music_and_Dance, main_parent_genre_Other, main_parent_genre_Pop, main_parent_genre_Rap_and_Hip_Hop, main_parent_genre_Reggae_and_Ska, main_parent_genre_Rock, main_parent_genre_World_Music ]]
@@ -238,8 +229,6 @@ def getdata():
     else:
         prediction_label2 = "It has Social Media Flop Potential"
 
-
-
 ##### Feature Graph Creation #####
 
     graph_file_path = os.path.join('App/static/images', 'feature_graph.png')
@@ -247,7 +236,6 @@ def getdata():
     # Create a DataFrame for the new song
     graph_data = [[danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence]]
     feature_names = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence',]
-
 
     # Modify your feature data
     df = df.drop(columns=['track_id', 'track', 'artist', 'popularity', 'duration_ms', 'key', 'mode', 'main_parent_genre', 'era', 'target', 'sm_target', 'tiktok', 'spotify', 'chorus_hit','tempo', 'sections', 'loudness', 'time_signature'])
@@ -261,7 +249,6 @@ def getdata():
     # Generate the graph
     generate_feature_graph(graph_file_path, feature_names, graph_data_scaled[0]) 
     data_tofindtrack = pd.read_csv('Spotify Data/data-clean.csv')
-    
 
 ##### Recommendation Feature Tuning #####
 
@@ -308,7 +295,6 @@ def getdata():
             else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
-    
     
 ##### Render the template #####
 
