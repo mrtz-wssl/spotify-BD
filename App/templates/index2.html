@@ -8,24 +8,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="../static/images/music.ico">
     <style>
+        /* CSS for the entire page */
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-image: url('../static/images/background_crowd.jpeg') !important;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            font-family: 'Montserrat', sans-serif; /* Added custom font */
+            background-image: url('../static/images/background_crowd.jpeg') !important; /* Added background image */
+            background-size: cover; /* Added background size */
+            background-repeat: no-repeat; /* Added background repeat */
+            background-attachment: fixed; /* Added background attachment */
            
         }
-
+        
         #graph-container { 
-            max-width: 500px; /* Adjust the width as needed */ 
+            max-width: 500px; /* Set a maximum width */
             margin: 0 auto; /* Center the container */ 
         } 
         
         #graph-container img { 
-            max-width: 100%; /* Make the image responsive */ 
+            max-width: 100%; /* Set a maximum width */
         }
-    
+        
+        /* CSS for the headers */
         h1 {
             text-align: center;
             margin-top: 50px;
@@ -45,7 +47,6 @@
         }
         
         h3 {
-
             display: block; 
             text-align: left;
             margin-top: 50px;
@@ -55,6 +56,7 @@
             color: #1DB954;
         }
 
+        /* CSS for the form */
         .form-group label, .track-info label {
             font-weight: 500;
             font-size: 18px;
@@ -73,18 +75,19 @@
             outline: none;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         }
-    
+        
+        /* CSS for the buttons */
         button.btn {
             background-color: #1DB954;
             border-radius: 3px;
             border: none;
             color: #FFFFFF;
-            font-size: 14px; /* Adjusted font size */
+            font-size: 14px;
             font-weight: 600;
-            padding: 8px 16px; /* Adjusted padding */
+            padding: 8px 16px;
             margin-top: 10px;
-            margin-bottom: 20px; /* Adjusted margin */
-            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); /* Adjusted box shadow */
+            margin-bottom: 20px; 
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); 
         }
 
         .button-wrapper {
@@ -109,7 +112,8 @@
         button.btn:hover {
             background-color: #1DB954;
         }
-    
+        
+        /* CSS for the track info */
         .track-info label {
             font-weight: 500;
             font-size: 18px;
@@ -123,8 +127,8 @@
         }
         
         .table-container {
-            margin-top: 5px; /* Adjusted margin-top */
-            margin-bottom: 5px; /* Adjusted margin-bottom */
+            margin-top: 5px;
+            margin-bottom: 5px;
             background-color: rgba(27, 27, 27, 0.8);
             color: white;
         }
@@ -136,10 +140,10 @@
 
         table th,
         table td {
-            padding: 5px; /* Adjusted padding */
+            padding: 5px;
             border: 1px solid #ccc;
             text-align: left;
-            font-size: 12px; /* Adjusted font size */
+            font-size: 12px;
         }
 
         table th {
@@ -148,30 +152,32 @@
             font-weight: bold;
         }
 
+        /* CSS for the prediction value */
         .prediction-value {
             background-color: #cbcecb;
             border-radius: 5px;
-            padding: 8px; /* Adjusted padding */
-            font-size: 20px; /* Adjusted font size */
+            padding: 8px;
+            font-size: 20px;
             font-weight: bold;
             display: inline-block;
             margin-top: 10px;
         }
 
+        /* CSS for the tabs */
         .nav-tabs .nav-link {
             background-color: rgb(78, 78, 78);
             color: white;
             margin-right: 5px;
             font-size: 14px;
             padding: 5px 8px;
-            border-color:rgb(78, 78, 78); /* Updated border color */
+            border-color:rgb(78, 78, 78); 
             border-bottom-color: white
         }
 
         .nav-tabs .nav-link.active {
             background-color: #1DB954;
             color: white;
-            border-color: #389F59; /* Updated border color */
+            border-color: #389F59; 
             border-bottom-color: #389F59
         }
 
@@ -179,23 +185,23 @@
             background-color: #389F59;
             color: white;
             font-size: 14px;
-            border-color: #389F59; /* Updated border color */
+            border-color: #389F59; 
             border-bottom-color: #389F59
         }
         .form-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column; /* Stack the children vertically */
+            flex-direction: column; 
             background-color: white;
             border-radius: 5px;
-            padding: 20px; /* Adjust padding as required */
+            padding: 20px;
             }
 
          .semitransparent-box {
-            background-color: rgba(27, 27, 27, 0.8); /* Change the color and transparency as needed */
-            padding: 10px; /* Adjust as needed */
-            border-radius: 10px; /* Adjust as needed */
+            background-color: rgba(27, 27, 27, 0.8); 
+            padding: 10px; 
+            border-radius: 10px;
             }
 
     </style>
@@ -222,12 +228,13 @@
                 // Select the third tab after the page reloads
                 document.getElementById("social-media-tab").click();
             } else if (tabNumber === "3") {
-                // Select the third tab after the page reloads
+                // Select the fourth tab after the page reloads
                 document.getElementById("statistics-tab").click();
             } 
         });
     </script>         
 </head>
+
 <body>
     <div class="container mt-5">
         <h1>
@@ -292,6 +299,11 @@
                         <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction | default("*") }}</span>
                     </div>
                         <img src="/static/images/feature_graph.png" alt="Plot" style="width: 100%; height: 50%;"><!-- to adjust the size of the image change width or height!-->
+                        <p></p>
+                        <h3>
+                            <p; style="padding-bottom: 35px;">Recommendation: {{ output1 }}</p>
+                        </h3>
+                        
                         <p></p>
                         <h3>
                             <label for="track-id-output">Track Information:</label>
@@ -366,7 +378,7 @@
                     </div>
                     <p></p>
                     <h3>
-                        <p; style="padding-bottom: 70px;">Recommendation: {{ output1 }}</p>
+                        <p; style="padding-bottom: 70px;"></p>
                     </h3>
                 </div>    
             </div>
@@ -379,6 +391,11 @@
                         </h3>
                         <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction2 | default("*")}}</span>
                     </div>
+                    <p></p>
+                        <h3>
+                            <p style = "padding-bottom: 35px" >Recommendation: {{ output1 }}</p>
+                        </h3>
+
                         <h3>
                             <label for="track-id-output">Social Media Track Success:</label>
                         </h3>  
@@ -452,7 +469,7 @@
                 </div>
                 <p></p>
                     <h3>
-                        <p style = "padding-bottom: 70px" >Recommendation: {{ output1 }}</p>
+                        <p style = "padding-bottom: 70px" ></p>
                     </h3>
             </div>
             </div>
