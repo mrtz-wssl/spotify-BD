@@ -18,7 +18,7 @@
         }
 
         #graph-container { 
-            max-width: 500px; /* Adjust the width as needed */ 
+            max-width: 500px;
             margin: 0 auto; /* Center the container */ 
         } 
         
@@ -228,6 +228,7 @@
         });
     </script>         
 </head>
+
 <body>
     <div class="container mt-5">
         <h1>
@@ -292,6 +293,11 @@
                         <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction | default("*") }}</span>
                     </div>
                         <img src="/static/images/feature_graph.png" alt="Plot" style="width: 100%; height: 50%;"><!-- to adjust the size of the image change width or height!-->
+                        <p></p>
+                        <h3>
+                            <p; style="padding-bottom: 35px;">Recommendation: {{ output1 }}</p>
+                        </h3>
+                        
                         <p></p>
                         <h3>
                             <label for="track-id-output">Track Information:</label>
@@ -366,7 +372,7 @@
                     </div>
                     <p></p>
                     <h3>
-                        <p; style="padding-bottom: 70px;">Recommendation: {{ output1 }}</p>
+                        <p; style="padding-bottom: 70px;"></p>
                     </h3>
                 </div>    
             </div>
@@ -379,6 +385,11 @@
                         </h3>
                         <span class="prediction-value" id="prediction" style="display: block; text-align: center; font-size: 24px; color: green;">{{ prediction2 | default("*")}}</span>
                     </div>
+                    <p></p>
+                        <h3>
+                            <p style = "padding-bottom: 35px" >Recommendation: {{ output1 }}</p>
+                        </h3>
+
                         <h3>
                             <label for="track-id-output">Social Media Track Success:</label>
                         </h3>  
@@ -452,7 +463,7 @@
                 </div>
                 <p></p>
                     <h3>
-                        <p style = "padding-bottom: 70px" >Recommendation: {{ output1 }}</p>
+                        <p style = "padding-bottom: 70px" ></p>
                     </h3>
             </div>
             </div>
