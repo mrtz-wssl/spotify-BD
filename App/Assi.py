@@ -19,7 +19,7 @@ import numpy as np
 #     # elif graph_type == 'scatter':
 #     #     plt.scatter(x, y, color='gray')©
 #     plt.savefig('mean-features-hits.png', dpi=300, bbox_inches='tight') 
-#     # plt.title('Fancy Graph')
+#     # plt.title('Fancy Graph')   
 #     # plt.xlabel('X')
 #     # plt.ylabel('Y') 
 #     #plt.savefig(file_path)
@@ -88,10 +88,10 @@ generate_and_save_graph()
 
 # Generate and save the third graph (scatter plot)
 file_name = 'graph3.png'
-file_path = os.path.join(save_directory, file_name)
+file_path = os.path.join(save_directory, file_name) 
 x = np.random.rand(100)
 y = np.random.rand(100)
-# generate_and_save_graph(file_path, x, y, 'scatter')
+# generate_and_save_graph(file_path, x, y, 'scatter') 
 
 
 app = Flask(__name__)
@@ -323,10 +323,10 @@ def getdata():
 
             if pred[0] > 0 and prediction > 0.5: 
                 print ("HIT reached")
-                output1 = "You already hava a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
+                output1 = "You already have a HIT prediction but maybe try to change " + str(feature) +" by " + str(value) + " to improve your song."
             elif prediction > 0.5 and failsafe == True: 
                 print("HIT already reached")
-                output1 = 'Your Song has already HIT potential'
+                output1 = 'Your track has already HIT potential'
             else:
                 print ("FLOP reached")
                 output1 = "Hey, maybe try to change " + str(feature) +" by " + str(value) + " to reach a HIT prediction."
