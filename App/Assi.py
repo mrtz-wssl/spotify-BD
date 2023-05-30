@@ -182,7 +182,7 @@ def getdata():
     X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
     
     # Load pickled Model and test if it works
-    rf_model_loaded = pickle.load(open('SM_model.pkl', 'rb'))
+    rf_model_loaded = pickle.load(open('../SM_model.pkl', 'rb'))
     
     # Make a predictions using the loaded model
     prediction2 = rf_model_loaded.predict(X_test_df_sm)
