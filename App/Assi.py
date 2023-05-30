@@ -171,17 +171,40 @@ def getdata():
     main_parent_genre_Rock = 0
     main_parent_genre_World_Music = 0
     # Create a list of the variables
-    X_test = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections]]
     
+    
+##### Social Media Potential Prediction #####
+
+    X_test_sm = [[duration_ms, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, key_A, key_A__Bb, key_B, key_C, key_C__Db, key_D, key_D__Eb, key_E, key_F, key_F__Gb, key_G, key_G__Ab, mode_major, mode_minor, era_00s, era_10s, era_20s, era_60s, era_70s, era_80s, era_90s, main_parent_genre_Blues_and_Jazz, main_parent_genre_Classical_and_Opera, main_parent_genre_Country_and_Folk, main_parent_genre_Electronic_Music_and_Dance, main_parent_genre_Other, main_parent_genre_Pop, main_parent_genre_Rap_and_Hip_Hop, main_parent_genre_Reggae_and_Ska, main_parent_genre_Rock, main_parent_genre_World_Music ]]
+    
+    # Create a df with the feature names and X Test as first row
+    feature_names_sm = ['duration_ms', 'danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'key_A', 'key_A#_/_Bb', 'key_B', 'key_C', 'key_C#_/_Db', 'key_D','key_D#_/_Eb', 'key_E', 'key_F', 'key_F#_/_Gb', 'key_G', 'key_G#_/_Ab', 'mode_major', 'mode_minor', 'era_00s', 'era_10s', 'era_20s', 'era_60s', 'era_70s', 'era_80s', 'era_90s', 'main_parent_genre_Blues_and_Jazz', 'main_parent_genre_Classical_and_Opera', 'main_parent_genre_Country_and_Folk', 'main_parent_genre_Electronic_Music_and_Dance', 'main_parent_genre_Other', 'main_parent_genre_Pop', 'main_parent_genre_Rap_and_Hip_Hop', 'main_parent_genre_Reggae_and_Ska', 'main_parent_genre_Rock', 'main_parent_genre_World_Music']
+    X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
+    
+    # Load pickled Model and test if it works
+    rf_model_loaded = pickle.load(open('SM_model.pkl', 'rb'))
+    
+    # Make a predictions using the loaded model
+    prediction2 = rf_model_loaded.predict(X_test_df_sm)
+    if prediction2 > 0.5:
+        prediction_label2 = "It has Social Media Hit Potential!"
+    else:
+        prediction_label2 = "It has Social Media Flop Potential"
+
+    sm_target = prediction2[0]
+
 ##### Hit/ Flop Prediction #####
 
     #Create a df with the feature names and X Test as first row
-    feature_names = ['danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'time_signature', 'chorus_hit', 'sections']
+    feature_names = ['danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'time_signature', 'chorus_hit', 'sections', 'sm_target']
+    X_test = [[danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, time_signature, chorus_hit, sections, sm_target]]
     X_test_df = pd.DataFrame(X_test, columns=feature_names)
     
     #load pickle and test if it works
-    xgb_model_loaded = pickle.load(open('xgb_model.pkl', 'rb'))
+    xgb_model_loaded = pickle.load(open('xgb_model_genre.pkl', 'rb'))
     print('Model Loaded')
+    xgb_model_loaded = pickle.load(open('xgb_model_genre.pkl', 'rb'))
+    print(dir(xgb_model_loaded))
 
     # Make predictions using the loaded model
     df = pd.read_csv('TikTokSpotifyMerged.csv')
@@ -211,23 +234,7 @@ def getdata():
         else:
             prediction_label = "This Song has FLOP Potential!"
 
-##### Social Media Potential Prediction #####
 
-    X_test_sm = [[duration_ms, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo, key_A, key_A__Bb, key_B, key_C, key_C__Db, key_D, key_D__Eb, key_E, key_F, key_F__Gb, key_G, key_G__Ab, mode_major, mode_minor, era_00s, era_10s, era_20s, era_60s, era_70s, era_80s, era_90s, main_parent_genre_Blues_and_Jazz, main_parent_genre_Classical_and_Opera, main_parent_genre_Country_and_Folk, main_parent_genre_Electronic_Music_and_Dance, main_parent_genre_Other, main_parent_genre_Pop, main_parent_genre_Rap_and_Hip_Hop, main_parent_genre_Reggae_and_Ska, main_parent_genre_Rock, main_parent_genre_World_Music ]]
-    
-    # Create a df with the feature names and X Test as first row
-    feature_names_sm = ['duration_ms', 'danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness','valence', 'tempo', 'key_A', 'key_A#_/_Bb', 'key_B', 'key_C', 'key_C#_/_Db', 'key_D','key_D#_/_Eb', 'key_E', 'key_F', 'key_F#_/_Gb', 'key_G', 'key_G#_/_Ab', 'mode_major', 'mode_minor', 'era_00s', 'era_10s', 'era_20s', 'era_60s', 'era_70s', 'era_80s', 'era_90s', 'main_parent_genre_Blues_and_Jazz', 'main_parent_genre_Classical_and_Opera', 'main_parent_genre_Country_and_Folk', 'main_parent_genre_Electronic_Music_and_Dance', 'main_parent_genre_Other', 'main_parent_genre_Pop', 'main_parent_genre_Rap_and_Hip_Hop', 'main_parent_genre_Reggae_and_Ska', 'main_parent_genre_Rock', 'main_parent_genre_World_Music']
-    X_test_df_sm = pd.DataFrame(X_test_sm, columns=feature_names_sm)
-    
-    # Load pickled Model and test if it works
-    rf_model_loaded = pickle.load(open('SM_model.pkl', 'rb'))
-    
-    # Make a predictions using the loaded model
-    prediction2 = rf_model_loaded.predict(X_test_df_sm)
-    if prediction2 > 0.5:
-        prediction_label2 = "It has Social Media Hit Potential!"
-    else:
-        prediction_label2 = "It has Social Media Flop Potential"
 
 ##### Feature Graph Creation #####
 
