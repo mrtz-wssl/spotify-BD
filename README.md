@@ -5,12 +5,21 @@
 - Objective: Our objective is to provide the music industry a tool to assess songs. Our deliverable is threefold; giving a hit/ flop prediciton for a song, predicitng its social media popularity and giving it a recommendation which feature to tune to make it a Hit.
 
 ## Dataset
-- We have used two datasets: A spotify dataset and a tiktok dataset
+We have used two datasets: A spotify dataset and a tiktok dataset
 - Spotify dataset: This is a dataset consisting of features for tracks fetched using Spotify's Web API. The tracks are labeled '1' or '0' ('Hit' or 'Flop') depending on some criterias of the author.
 	This dataset can be used to make a classification model that predicts whether a track would be a 'Hit' or not.
 - Tiktok dataset: This dataset comprises various features extracted from TikTok. The dataset includes different attributes, including a popularity variable reaching from 1 to 100. This dataset can be utilized to develop classification models aimed at predicting whether a song will be successfull on TikTok and trend on the platform. 
 	
 ## Files Overview
+The code is divided in different files. The main code is saved in the .ipynb files, naming:
+- 00-merging dataframes
+- 01-data_clean
+- 02-ml_models
+- 03-xgb
+- 04-social media prediction
+- 05-feature recommendation
+- 06-song recommendation
+The app, which creates a user interface for the model and concatenates the model to a product, is saved in the folder "App"
 
 ### Assi.py (Short form for Aissignment)
 - The code imports the necessary modules, including Flask, matplotlib, and sklearn.
