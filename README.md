@@ -1,7 +1,7 @@
 # Welcome to RythmRadar!
 
 ## Project Intro
-- Motivation: 
+- Motivation: This code is the baseline for the Rhythm Radar Program. The motivation is to give insights on a songs popularity and predict its success. Our deliverable is threefold: giving a hit/ flop prediciton for a song, predicitng its social media popularity and giving it a recommendation which feature to tune to make it a Hit.
 - Objective:
 
 ## Dataset
