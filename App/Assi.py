@@ -203,8 +203,6 @@ def getdata():
     #load pickle and test if it works
     xgb_model_loaded = pickle.load(open('xgb_model_genre.pkl', 'rb'))
     print('Model Loaded')
-    xgb_model_loaded = pickle.load(open('xgb_model_genre.pkl', 'rb'))
-    print(dir(xgb_model_loaded))
 
     # Make predictions using the loaded model
     df = pd.read_csv('TikTokSpotifyMerged.csv')
@@ -263,7 +261,7 @@ def getdata():
     data_tofindtrack['track_seconds'] = data_tofindtrack['duration_ms'] / 1000
 
     # Drop unneeded columns
-    data_tofindtrack = data_tofindtrack.drop(["era", "sm_target", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
+    data_tofindtrack = data_tofindtrack.drop(["era", "popularity", "tiktok", "spotify", "track", "artist", "duration_ms", "key", "mode", "main_parent_genre"], axis=1)
 
     tuningfeatures = ["loudness", "danceability", "acousticness","chorus_hit","sections", 
                   "energy", "speechiness","instrumentalness","liveness",
