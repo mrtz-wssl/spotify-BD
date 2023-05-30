@@ -35,11 +35,19 @@ The app, which creates a user interface for the model and concatenates the model
 - The tabs navigation is created using an unordered list (<ul>) with each tab item represented by a list item (<li>). Each list item contains an anchor (<a>) element with a unique ID and a data-toggle attribute to enable tab switching.
 - The tab content is defined within a <div> with the class tab-content. Each tab pane is represented by a <div> with a unique ID and the class tab-pane. The first tab pane has an additional class semitransparent-box for styling.
 - Inside each tab pane, there is content specific to that tab. The first tab pane contains a welcome message and a form with three buttons. The form has an action attribute pointing to /getdata and a method of post.
+### 00-merging dataframes.ipynb
+This dataframe first creates a merged dataset, then conducts different tests on the merged dataset and finally exports the data to make it accessible for further use.
 ### 01-data_clean.ipynb
 Dataframe cleaning for modelling and scale of all the variabels
 ### 02-ml_models.ipynb
 Evaluation of different machine learning models (LR, RF, XGB, ...) and selection of the most appropriate based on evaluation metrics
 ### 03-xgb.ipynb
 Selected XGBoost model fitting and prediction
+### 04-social media prediction.ipynb
+This code creates a model to predict social media success built with a random forest classifier. The social media target is a binary variable.
+### 05-feature_recommendation.ipynb
+Based on the model created to predict hit and flop this code gives a recommendation on how to tune a feature to reach a hit. It goes through a selection of features (starting with the one that is easyest to change) and tries to adapt them.
+### 06-song recommendation.ipynb
+This code gives similar songs than the one inputed
 ### xgb_model_genre.pkl
 Saved the XGBoost model in a pickle file to use across webapp, without long computing time
