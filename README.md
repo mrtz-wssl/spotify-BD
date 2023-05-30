@@ -22,11 +22,11 @@
 - The tabs navigation is created using an unordered list (<ul>) with each tab item represented by a list item (<li>). Each list item contains an anchor (<a>) element with a unique ID and a data-toggle attribute to enable tab switching.
 - The tab content is defined within a <div> with the class tab-content. Each tab pane is represented by a <div> with a unique ID and the class tab-pane. The first tab pane has an additional class semitransparent-box for styling.
 - Inside each tab pane, there is content specific to that tab. The first tab pane contains a welcome message and a form with three buttons. The form has an action attribute pointing to /getdata and a method of post.
-### 00-data_clean.ipynb
+### 01-data_clean.ipynb
 Dataframe cleaning for modelling and scale of all the variabels
-### 01-ml_models.ipynb
+### 02-ml_models.ipynb
 Evaluation of different machine learning models (LR, RF, XGB, ...) and selection of the most appropriate based on evaluation metrics
-### 02-xgb.ipynb
+### 03-xgb.ipynb
 Selected XGBoost model fitting and prediction
 ### xgb_model_genre.pkl
 Saved the XGBoost model in a pickle file to use across webapp, without long computing time
