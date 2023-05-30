@@ -208,6 +208,7 @@ def getdata():
     df = pd.read_csv('TikTokSpotifyMerged.csv')
     df = df.reset_index(drop=True)
 
+    # To increase accuracy and reduce computation time, we check whether the song is already classified in the data set
     # Check whether the song is in the Spotify data set
     print(f"Checking track ID: {track_id}")
     if track_id in df['track_id'].values:
