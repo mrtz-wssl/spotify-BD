@@ -51,3 +51,5 @@ Based on the model created to predict hit and flop this code gives a recommendat
 This code gives similar songs than the one inputed
 ### xgb_model_genre.pkl
 Saved the XGBoost model in a pickle file to use across webapp, without long computing time
+### spotify_new_songs.ipynb
+Populate our data with new songs from Spotify through API requests. Also, the songs go through the audio analysis tool of Spotify to extract audio features for our model.
