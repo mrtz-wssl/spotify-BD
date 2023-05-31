@@ -21,7 +21,7 @@ The code is divided in different files. The main code is saved in the .ipynb fil
 - 06-song recommendation
 The app, which creates a user interface for the model and concatenates the model to a product, is saved in the folder "App"
 
-### Assi.py (Short form for Aissignment)
+### Assi.py (Short form for Assignment)
 - The code imports the necessary modules, including Flask, matplotlib, and sklearn.
 - There are two graph generation functions: generate_and_save_graph() and generate_feature_graph(). These functions generate and save different types of graphs using matplotlib.
 - The code defines a Flask web application using the Flask class and sets up routes for ('/') and a form submission ('/getdata').
@@ -38,18 +38,20 @@ The app, which creates a user interface for the model and concatenates the model
 ### 00-merging dataframes.ipynb
 This dataframe first creates a merged dataset, then conducts different tests on the merged dataset and finally exports the data to make it accessible for further use.
 ### 01-data_clean.ipynb
-Dataframe cleaning for modelling and scale of all the variabels
+Dataframe cleaning for modelling and scale of all the variabels.
 ### 02-ml_models.ipynb
-Evaluation of different machine learning models (LR, RF, XGB, ...) and selection of the most appropriate based on evaluation metrics
+Evaluation of different machine learning models (LR, RF, XGB, ...) and selection of the most appropriate based on evaluation metrics.
 ### 03-xgb.ipynb
-Selected XGBoost model fitting and prediction
+Selected XGBoost model fitting and prediction.
 ### 04-social media prediction.ipynb
 This code creates a model to predict social media success built with a random forest classifier. The social media target is a binary variable.
 ### 05-feature_recommendation.ipynb
 Based on the model created to predict hit and flop this code gives a recommendation on how to tune a feature to reach a hit. It goes through a selection of features (starting with the one that is easyest to change) and tries to adapt them.
 ### 06-song recommendation.ipynb
-This code gives similar songs than the one inputed
+This code gives similar songs to the one inputed.
+### 07-genre extraction.ipynb
+This code extracts the genre assigned to a an artist on Spotify and adds it to the dataframe to be merged at a later point. Additionally, it also groups the genres to parent-genres that are easier to work with. 
 ### xgb_model_genre.pkl
-Saved the XGBoost model in a pickle file to use across webapp, without long computing time
+Saved the XGBoost model in a pickle file to use across webapp, without long computing time.
 ### spotify_new_songs.ipynb
 Populate our data with new songs from Spotify through API requests. Also, the songs go through the audio analysis tool of Spotify to extract audio features for our model.
